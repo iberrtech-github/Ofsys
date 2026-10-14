@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Placements Page
+   ========================================================================== */
+.pl-section {
+  position: relative;
+  padding: 90px 0;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(245, 166, 35, 0.1), transparent 28%),
+    url('../images/edu-doodles.svg') repeat,
+    #FFFDFB;
+  background-size: auto, 360px 360px, auto;
+}
+
+.pl-header {
+  text-align: center;
+  margin-bottom: 46px;
+}
+.pl-title {
+  margin: 12px 0 14px;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.12;
+  color: var(--ink);
+}
+.pl-title em {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--primary);
+}
+.pl-divider {
+  width: 80px;
+  height: 5px;
+  margin: 0 auto;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--primary), var(--accent-gold));
+}
+
+.pl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.pl-card {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px;
+  background: #FFFFFF;
+  border: 1px solid rgba(23, 7, 10, 0.07);
+  border-top: 4px solid var(--primary);
+  border-radius: 14px;
+  box-shadow: 0 14px 30px -24px rgba(23, 7, 10, 0.4);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.pl-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 44px -26px rgba(211, 24, 38, 0.4);
+}
+
+.pl-card.pl-image-only {
+  padding: 10px;
+}
+.pl-image-only .pl-card-top {
+  display: block;
+}
+.pl-image-only .pl-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.pl-card-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pl-photo {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(211, 24, 38, 0.18);
+}
+.pl-photo-empty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 24, 38, 0.07);
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+.pl-identity h3 {
+  margin: 0 0 2px;
+  font-family: var(--font-edu);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.pl-role {
+  margin: 0 0 4px;
+  color: #6b6267;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.pl-company {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-edu);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.pl-company i { font-size: 0.72rem; }
+
+.pl-meta {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #FBF7F7;
+  border: 1px solid rgba(23, 7, 10, 0.05);
+}
+.pl-meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+.pl-meta-row + .pl-meta-row { margin-top: 8px; }
+.pl-meta-row span {
+  flex: 0 0 auto;
+  font-family: var(--font-edu);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a8186;
+}
+.pl-meta-row strong {
+  text-align: right;
+  font-family: var(--font-edu);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.pl-package {
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: rgba(245, 166, 35, 0.2);
+  color: #9a6508 !important;
+}
+
+.pl-quote {
+  position: relative;
+  margin: 18px 0 0;
+  padding: 0 0 0 18px;
+  border-left: 3px solid rgba(211, 24, 38, 0.2);
+  color: #5b5257;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* Shown when the admin has not added any placements yet */
+.pl-empty {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 54px 34px;
+  text-align: center;
+  background: #FFFFFF;
+  border: 1px dashed rgba(211, 24, 38, 0.25);
+  border-radius: 16px;
+}
+.pl-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 74px;
+  height: 74px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: rgba(211, 24, 38, 0.08);
+  color: var(--primary);
+  font-size: 1.8rem;
+}
+.pl-empty h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-edu);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.pl-empty p {
+  margin: 0 auto 24px;
+  max-width: 420px;
+  color: #6b6267;
+  line-height: 1.7;
+}
+
+@media (max-width: 991px) {
+  .pl-section { padding: 70px 0; }
+}
+
+@media (max-width: 575px) {
+  .pl-grid { grid-template-columns: 1fr; }
+  .pl-card { padding: 22px 18px; }
+  .pl-empty { padding: 40px 20px; }
+}

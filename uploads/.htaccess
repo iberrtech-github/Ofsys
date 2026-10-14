@@ -1,0 +1,11 @@
+# Uploaded media only - never run code from this folder.
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+
+<FilesMatch "\.(?i:php|php\d|phtml|phps|phar|pl|py|cgi|sh|shtml)$">
+  Require all denied
+</FilesMatch>

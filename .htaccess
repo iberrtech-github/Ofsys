@@ -1,0 +1,71 @@
+# OFSYS Education - Apache URL Rewriting
+# Removes .php extensions and routes course and blog details cleanly
+
+Options -MultiViews
+RewriteEngine On
+RewriteBase /ofsys/
+
+# Prevent directory listings
+Options -Indexes
+
+# If already .php in requested URL, redirect to clean URL (only for GET requests)
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/ofsys/([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Route course slugs to their own page: /courses/{slug} -> courses/{slug}.php
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+RewriteCond %{DOCUMENT_ROOT}/ofsys/course-pages/$1.php -f
+RewriteRule ^courses/([a-zA-Z0-9_-]+)/?$ course-pages/$1.php [L,QSA]
+
+# Any other course slug goes to the legacy handler, which redirects to /courses
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^courses/([a-zA-Z0-9_-]+)/?$ course-detail.php?slug=$1 [L,QSA]
+
+# Route blog slugs: /blog/{slug} -> blog-detail.php?slug=$1
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ blog-detail.php?slug=$1 [L,QSA]
+
+# Check if .php file exists for the requested path: /about -> about.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# ---------------------------------------------------------------------------
+# Performance: compress text responses and let browsers cache static assets,
+# so a refresh re-uses them instead of downloading everything again.
+# (Each block is skipped when the module is not enabled.)
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType text/javascript         "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType font/woff2              "access plus 1 year"
+  ExpiresDefault                        "access plus 2 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # CSS/JS carry a ?v=<filemtime> stamp, so they can be cached hard
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.php$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Contact Page - Help panel + form
+   ========================================================================== */
+.ct-main {
+  padding: 80px 0;
+  background: #FFFFFF;
+}
+.ct-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+.ct-help {
+  padding: 46px 40px;
+  border-radius: 18px;
+  background: #FFF7F7;
+  border: 1px solid rgba(211, 24, 38, 0.08);
+}
+.ct-help h2 {
+  margin: 10px 0 12px;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.ct-help h2 em {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--primary);
+}
+.ct-help-lead {
+  color: #6b6267;
+  line-height: 1.75;
+  margin-bottom: 30px;
+}
+.ct-help-list {
+  display: grid;
+  gap: 16px;
+}
+.ct-help-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px -24px rgba(23, 7, 10, 0.35);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+a.ct-help-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 32px -22px rgba(211, 24, 38, 0.4);
+  color: var(--ink);
+}
+.ct-help-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 24, 38, 0.08);
+  color: var(--primary);
+  font-size: 1.1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+a.ct-help-item:hover .ct-help-icon { background: var(--primary); color: #FFFFFF; }
+.ct-help-item strong {
+  display: block;
+  font-family: var(--font-edu);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.ct-help-item em {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-edu);
+  font-weight: 700;
+  color: var(--primary);
+  word-break: break-word;
+}
+.ct-help-item em.muted { color: #6b6267; font-weight: 500; }
+
+.ct-form-card {
+  padding: 44px 46px;
+  background: #FFFFFF;
+  border: 1px solid rgba(23, 7, 10, 0.07);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -40px rgba(23, 7, 10, 0.35);
+}
+.ct-form-card h2 {
+  margin: 0 0 22px;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 900;
+  color: var(--ink);
+}
+.ct-label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: var(--font-edu);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #5b5257;
+}
+.ct-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: #F8F7F7;
+  border: 1px solid rgba(23, 7, 10, 0.12);
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.ct-input:focus {
+  background: #FFFFFF;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(211, 24, 38, 0.1);
+}
+textarea.ct-input { resize: vertical; min-height: 120px; }
+.ct-submit {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  margin-top: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-family: var(--font-edu);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.ct-submit:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -14px rgba(211, 24, 38, 0.55);
+}
+.ct-submit i { transition: transform 0.3s ease; }
+.ct-submit:hover i { transform: translate(3px, -3px); }
+
+/* ==========================================================================
+   Contact Page - Our Branches
+   ========================================================================== */
+.branch-section {
+  position: relative;
+  padding: 80px 0;
+  background:
+    url('../images/edu-doodles.svg') repeat,
+    #FFFDFB;
+  background-size: 360px 360px, auto;
+  border-top: 1px solid rgba(211, 24, 38, 0.12);
+}
+
+.branch-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.branch-title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 12px 0 14px;
+  color: var(--ink);
+}
+.branch-title em {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--primary);
+}
+.branch-divider {
+  width: 80px;
+  height: 5px;
+  margin: 0 auto;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--primary), var(--accent-gold));
+}
+
+/* 3 cards on the first row, the rest centred below (3 + 2) */
+.branch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.branch-grid > .branch-card {
+  flex: 0 0 calc((100% - 40px) / 3);
+}
+
+.branch-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 22px 22px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: 0 8px 22px rgba(23, 7, 10, 0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.branch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgba(211, 24, 38, 0.25);
+  border-left-color: var(--accent-gold);
+}
+
+.branch-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 12px;
+  border-radius: 0 0 0 10px;
+  background: var(--accent-gold);
+  color: var(--ink);
+  font-family: var(--font-edu);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.branch-name {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(23, 7, 10, 0.08);
+  font-family: var(--font-edu);
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.branch-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.branch-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #5b5257;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+.branch-icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 24, 38, 0.08);
+  color: var(--primary);
+  font-size: 0.78rem;
+}
+
+.branch-action {
+  margin-top: 18px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(211, 24, 38, 0.08);
+  color: var(--primary);
+  font-family: var(--font-edu);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.branch-action i { font-size: 0.8rem; transition: transform 0.3s ease; }
+.branch-card:hover .branch-action {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+.branch-card:hover .branch-action i { transform: translateX(4px); }
+
+@media (max-width: 991px) {
+  .branch-section { padding: 64px 0; }
+  .branch-grid > .branch-card { flex-basis: calc((100% - 20px) / 2); }
+}
+
+@media (max-width: 991px) {
+  .ct-wrap { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 575px) {
+  .ct-help, .ct-form-card { padding: 30px 20px; }
+  .branch-grid > .branch-card { flex-basis: 100%; }
+  .branch-card { padding: 24px 20px 20px; }
+}

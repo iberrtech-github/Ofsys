@@ -1,0 +1,885 @@
+/* ==========================================================================
+   OFSYS EDUCATION - ULTRA-PREMIUM CREATIVE DESIGN SYSTEM
+   Role: 10+ Senior Web Developer & UI/UX Designer
+   Theme: Official Brand Crimson Red (#D31826), Golden Amber (#F5A623),
+          Ruby Dark (#140508, #1E070C), Warm Silk Light (#FFF7F7)
+   Fonts: 'Poppins' (single family across headings, body, UI and display)
+   ========================================================================== */
+
+
+:root {
+  /* Brand Red Spectrum */
+  --primary: #D31826;
+  --primary-hover: #b9121f;
+  --primary-dark: #8E0E18;
+  --primary-light: #FF3B4B;
+  --primary-glow: rgba(211, 24, 38, 0.35);
+  --primary-subtle: rgba(211, 24, 38, 0.08);
+
+  /* Golden Amber Spectrum */
+  --accent-gold: #F5A623;
+  --accent-gold-hover: #e09419;
+  --accent-gold-dark: #D97706;
+  --accent-gold-glow: rgba(245, 166, 35, 0.35);
+  --accent-gold-subtle: rgba(245, 166, 35, 0.12);
+
+  /* Deep Ruby Dark Palette (Theme-based Dark, NOT plain gray/black) */
+  --theme-dark-900: #0E0305;
+  --theme-dark-800: #17070A;
+  --theme-dark-700: #240B10;
+  --theme-dark-card: #1D080D;
+  --theme-dark-border: rgba(211, 24, 38, 0.22);
+
+  /* Warm Tinted Light Palette (Theme-based Light, NOT flat boring white/gray) */
+  --theme-light-bg: #FFF9F9;
+  --theme-light-alt: #FFF0F1;
+  --theme-light-card: #FFFFFF;
+  --theme-light-border: rgba(211, 24, 38, 0.1);
+
+  /* Typography - single Poppins family across the whole site (hierarchy comes
+     from weight + size, not from mixing typefaces). */
+  --font-heading: 'Poppins', sans-serif;
+  --font-edu: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-display: 'Poppins', sans-serif;
+
+  /* Keep Bootstrap components (buttons, forms, tables) on the same family */
+  --bs-body-font-family: 'Poppins', sans-serif;
+
+  /* Text Colors */
+  --text-heading: #0F172A;
+  --text-body: #475569;
+  --text-muted: #64748B;
+  --text-white: #FFFFFF;
+  --text-gold: #F5A623;
+
+  /* Shadows & Radius */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 4px 12px rgba(211, 24, 38, 0.05);
+  --shadow-md: 0 12px 28px -6px rgba(211, 24, 38, 0.12);
+  --shadow-lg: 0 24px 48px -12px rgba(211, 24, 38, 0.18);
+  --shadow-brand: 0 16px 36px -8px rgba(211, 24, 38, 0.42);
+  --shadow-gold: 0 16px 36px -8px rgba(245, 166, 35, 0.4);
+  --shadow-dark: 0 24px 50px -10px rgba(0, 0, 0, 0.5);
+
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-body);
+  background-color: var(--theme-light-bg);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-heading);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.font-edu {
+  font-family: var(--font-edu);
+}
+
+/* Form controls and buttons (incl. Bootstrap defaults) stay on Poppins */
+button, input, select, textarea, optgroup, .btn, .form-control, .form-select {
+  font-family: var(--font-body);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   Creative Background Patterns & Gradients
+   ========================================================================== */
+.bg-theme-hero {
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(211, 24, 38, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(245, 166, 35, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(23, 7, 10, 0.95) 0%, var(--theme-dark-900) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-theme-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(211, 24, 38, 0.15) 1.5px, transparent 1.5px);
+  background-size: 36px 36px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.bg-theme-ruby {
+  background: 
+    linear-gradient(135deg, var(--theme-dark-900) 0%, var(--theme-dark-800) 50%, var(--theme-dark-700) 100%);
+  position: relative;
+}
+
+.bg-theme-silk {
+  background: 
+    radial-gradient(circle at 90% 10%, rgba(211, 24, 38, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(245, 166, 35, 0.06) 0%, transparent 40%),
+    linear-gradient(180deg, #FFFFFF 0%, var(--theme-light-bg) 60%, var(--theme-light-alt) 100%);
+  position: relative;
+}
+
+.bg-theme-blush {
+  background: 
+    linear-gradient(180deg, var(--theme-light-alt) 0%, #FFFFFF 50%, var(--theme-light-bg) 100%);
+  position: relative;
+}
+
+.bg-theme-crimson-gradient {
+  background: linear-gradient(135deg, #B9121F 0%, #D31826 40%, #E63946 70%, #F5A623 100%);
+  position: relative;
+}
+
+/* Creative Gradient Text */
+.gradient-brand-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFB4BA 50%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-brand-text-dark {
+  background: linear-gradient(135deg, var(--primary) 0%, #E63946 60%, var(--accent-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-gold-text {
+  background: linear-gradient(135deg, #F5A623 0%, #FFD166 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   Ultra-Creative Floating Navbar
+   ========================================================================== */
+.top-notice-bar {
+  background: var(--theme-dark-900);
+  color: #FFAAB0;
+  font-family: var(--font-edu);
+  font-size: 0.82rem;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(211, 24, 38, 0.25);
+}
+
+.pulse-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22C55E;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  animation: pulseGreen 1.8s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.header-main {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 12px 0;
+  background: rgba(14, 3, 5, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition);
+}
+
+.header-main.scrolled {
+  background: rgba(14, 3, 5, 0.88);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.navbar-creative-shell {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(211, 24, 38, 0.2);
+  border-radius: var(--radius-pill);
+  padding: 8px 24px;
+  box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.25);
+  transition: var(--transition);
+}
+
+.header-main.scrolled .navbar-creative-shell {
+  background: #FFFFFF;
+  box-shadow: 0 18px 45px -10px rgba(211, 24, 38, 0.25);
+  border-color: rgba(211, 24, 38, 0.35);
+}
+
+.navbar-brand-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+}
+
+.nav-link-custom {
+  font-family: var(--font-edu);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1E293B !important;
+  padding: 8px 16px !important;
+  border-radius: var(--radius-pill);
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom.active {
+  color: var(--primary) !important;
+  background: var(--primary-subtle);
+}
+
+/* ==========================================================================
+   Creative Buttons with Shimmer & Glow
+   ========================================================================== */
+.btn-ofsys-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D31826 0%, #B9121F 100%);
+  color: #FFFFFF !important;
+  font-family: var(--font-edu);
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #17070A;
+  box-shadow: 3px 3px 0 #17070A;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ofsys-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.6s ease;
+}
+
+.btn-ofsys-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--accent-gold);
+}
+.btn-ofsys-primary:active,
+.btn-ofsys-gold:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #17070A; }
+
+.btn-ofsys-primary:hover::before {
+  left: 100%;
+}
+
+.btn-ofsys-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #F5A623 0%, #E59516 100%);
+  color: #17070A !important;
+  font-family: var(--font-edu);
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #17070A;
+  box-shadow: 3px 3px 0 #17070A;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-ofsys-gold::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+  transition: 0.6s ease;
+}
+.btn-ofsys-gold:hover::before { left: 100%; }
+
+.btn-ofsys-gold:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #17070A;
+}
+
+.btn-ofsys-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF !important;
+  font-family: var(--font-edu);
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-ofsys-outline-white:hover {
+  background: #FFFFFF;
+  color: var(--primary) !important;
+  border-color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   Badges & Pills
+   ========================================================================== */
+.badge-edu-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  font-family: var(--font-edu);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #F5A623;
+  background: rgba(245, 166, 35, 0.12);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: var(--radius-pill);
+}
+
+.badge-edu-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  font-family: var(--font-edu);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  background: rgba(211, 24, 38, 0.2);
+  border: 1px solid rgba(211, 24, 38, 0.4);
+  border-radius: var(--radius-pill);
+}
+
+.badge-ai-spotlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  font-family: var(--font-edu);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-pill);
+}
+
+/* ==========================================================================
+   Creative Architectural Image Frames (Inspired by Eka & Premium Look)
+   ========================================================================== */
+.creative-image-frame {
+  position: relative;
+  padding: 16px;
+}
+
+.creative-image-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80%; height: 80%;
+  border-radius: var(--radius-lg);
+  border: 2px dashed rgba(245, 166, 35, 0.45);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.creative-image-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 90%; height: 90%;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle, rgba(211, 24, 38, 0.25) 0%, transparent 70%);
+  filter: blur(24px);
+  z-index: 0;
+}
+
+.creative-main-img {
+  position: relative;
+  z-index: 2;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.6s ease;
+}
+
+.creative-image-frame:hover .creative-main-img {
+  transform: scale(1.02) rotate(-0.5deg);
+}
+
+/* Floating Badges on Creative Images */
+.floating-glass-chip {
+  position: absolute;
+  z-index: 5;
+  background: rgba(23, 7, 10, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(211, 24, 38, 0.35);
+  color: #FFFFFF;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.floating-glass-chip.chip-top {
+  top: -15px;
+  right: -20px;
+  animation-delay: 0s;
+}
+
+.floating-glass-chip.chip-bottom {
+  bottom: -20px;
+  left: -20px;
+  animation-delay: 3s;
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.chip-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.chip-icon.red {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+.chip-icon.gold {
+  background: var(--accent-gold);
+  color: #17070A;
+}
+
+/* ==========================================================================
+   Achievements Metric Cards (Theme-Tuned)
+   ========================================================================== */
+.metric-card-ruby {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(211, 24, 38, 0.12) 100%);
+  border: 1px solid rgba(211, 24, 38, 0.25);
+  border-radius: var(--radius-md);
+  padding: 34px 24px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card-ruby::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent-gold));
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.metric-card-ruby:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(211, 24, 38, 0.22) 100%);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px -10px rgba(211, 24, 38, 0.35);
+}
+
+.metric-card-ruby:hover::before {
+  opacity: 1;
+}
+
+.metric-val-ruby {
+  font-family: var(--font-heading);
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   Our Courses - Ultra Variety Creative Card Design
+   ========================================================================== */
+.course-card-variety {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid rgba(211, 24, 38, 0.12);
+  padding: 30px 26px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px -5px rgba(211, 24, 38, 0.06);
+  overflow: hidden;
+}
+
+.course-card-variety::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent-gold) 100%);
+  opacity: 0.8;
+}
+
+.course-card-variety:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 25px 50px -10px rgba(211, 24, 38, 0.2);
+}
+
+.course-card-variety.ai-glow-card {
+  border: 1.5px solid rgba(56, 189, 248, 0.3);
+  background: linear-gradient(180deg, rgba(240, 249, 255, 0.7) 0%, #FFFFFF 35%);
+}
+
+.course-card-variety.ai-glow-card:hover {
+  border-color: #0284C7;
+  box-shadow: 0 25px 50px -10px rgba(2, 132, 199, 0.25);
+}
+
+.course-card-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  background: rgba(211, 24, 38, 0.1);
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.course-card-variety:hover .course-card-icon-box {
+  background: var(--primary);
+  color: #FFFFFF;
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.tool-badge-pill {
+  font-family: var(--font-edu);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  background: var(--theme-light-alt);
+  color: #8E0E18;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(211, 24, 38, 0.12);
+}
+
+/* ==========================================================================
+   Affiliations & Partner Cards
+   ========================================================================== */
+.partner-logo-card {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(211, 24, 38, 0.12);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 95px;
+  box-shadow: 0 6px 18px rgba(211, 24, 38, 0.04);
+  transition: var(--transition);
+}
+
+.partner-logo-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 30px rgba(211, 24, 38, 0.15);
+}
+
+.partner-logo-card img {
+  max-height: 52px;
+  max-width: 140px;
+  object-fit: contain;
+  transition: var(--transition);
+}
+
+.partner-logo-card:hover img {
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   Modal Form (User Reference Match)
+   ========================================================================== */
+.modal-discount .modal-dialog {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 12px;
+}
+
+.modal-discount .modal-content {
+  border-radius: 18px;
+  border: 2px solid rgba(211, 24, 38, 0.2);
+  box-shadow: 0 35px 80px rgba(14, 3, 5, 0.4);
+  overflow: hidden;
+  max-height: calc(100vh - 2rem);
+}
+
+.modal-discount .modal-header {
+  background: linear-gradient(180deg, var(--theme-light-alt) 0%, #FFFFFF 100%);
+  border-bottom: 1px solid rgba(211, 24, 38, 0.1);
+  padding: 16px 20px 10px;
+  align-items: flex-start;
+}
+
+.modal-discount .modal-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+  line-height: 1.25;
+}
+
+.modal-discount .modal-subtitle {
+  font-size: 0.82rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.modal-discount .modal-body {
+  padding: 14px 20px 18px;
+  overflow-y: auto;
+}
+
+.modal-discount .modal-body .mb-3,
+.modal-discount .modal-body .mb-4 {
+  margin-bottom: 10px !important;
+}
+
+.btn-close-custom {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(211, 24, 38, 0.08);
+  color: #1E293B;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-close-custom:hover {
+  background: #E11D2A;
+  color: #FFFFFF;
+}
+
+.form-label-custom {
+  font-family: var(--font-edu);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.form-control-custom,
+.form-select-custom {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  border-radius: 10px;
+  border: 1.5px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  transition: var(--transition);
+  outline: none;
+}
+
+.form-control-custom:focus,
+.form-select-custom:focus {
+  border-color: #1D6AE5;
+  box-shadow: 0 0 0 4px rgba(29, 106, 229, 0.15);
+}
+
+.btn-modal-submit {
+  width: 100%;
+  padding: 12px;
+  font-family: var(--font-edu);
+  font-size: 0.95rem;
+  font-weight: 800;
+  background: #1D6AE5;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 10px 25px rgba(29, 106, 229, 0.4);
+}
+
+.btn-modal-submit:hover {
+  background: #1555BD;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(29, 106, 229, 0.5);
+}
+
+/* ==========================================================================
+   Floating Widgets (WhatsApp & Call)
+   ========================================================================== */
+/* Edge-docked tab stack on the right side of the screen */
+.floating-actions-bar {
+  position: fixed;
+  bottom: 120px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  z-index: 999;
+}
+
+/* Tab grows to the left on hover and reveals its label */
+.float-action-btn {
+  height: 58px;
+  min-width: 58px;
+  padding: 0 17px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 16px 0 0 16px;
+  background: var(--primary);
+  color: #FFFFFF !important;
+  font-size: 1.7rem;
+  text-decoration: none;
+  box-shadow: -6px 10px 26px rgba(23, 7, 10, 0.22);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.float-action-btn.phone {
+  font-size: 1.45rem;
+}
+.float-action-btn i {
+  flex: 0 0 auto;
+  width: 24px;
+  text-align: center;
+}
+.fab-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  font-family: var(--font-edu);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: max-width 0.5s ease, opacity 0.35s ease, margin 0.5s ease;
+}
+.float-action-btn:hover,
+.float-action-btn:focus-visible {
+  background: var(--primary-hover);
+  box-shadow: -10px 14px 30px rgba(211, 24, 38, 0.35);
+}
+.float-action-btn:hover .fab-label,
+.float-action-btn:focus-visible .fab-label {
+  max-width: 110px;
+  opacity: 1;
+  margin-left: 12px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991px) {
+  .navbar-creative-shell {
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+  }
+  .creative-main-img {
+    height: 380px;
+  }
+  .floating-glass-chip.chip-top {
+    right: 5px;
+    top: -10px;
+  }
+  .floating-glass-chip.chip-bottom {
+    left: 5px;
+    bottom: -10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .metric-val-ruby {
+    font-size: 2.6rem;
+  }
+  .creative-main-img {
+    height: 300px;
+  }
+}

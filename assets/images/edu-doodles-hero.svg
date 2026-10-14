@@ -1,0 +1,31 @@
+<!-- Hero variant: same tile without the graduation cap and open book -->
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360" fill="none" stroke="#D31826" stroke-opacity="0.09" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Pencil -->
+  <path d="M318 120 L340 98 L350 108 L328 130 L314 134 Z"/>
+  <path d="M334 104 L344 114"/>
+  <!-- Light bulb -->
+  <path d="M64 168 C44 168 34 186 42 202 C46 210 52 214 52 224 H76 C76 214 82 210 86 202 C94 186 84 168 64 168 Z"/>
+  <path d="M54 232 H74 M57 240 H71"/>
+  <path d="M64 150 V158 M36 162 L42 168 M92 162 L86 168"/>
+  <!-- Atom -->
+  <ellipse cx="180" cy="200" rx="36" ry="13"/>
+  <ellipse cx="180" cy="200" rx="36" ry="13" transform="rotate(60 180 200)"/>
+  <ellipse cx="180" cy="200" rx="36" ry="13" transform="rotate(-60 180 200)"/>
+  <circle cx="180" cy="200" r="3"/>
+  <!-- Formula -->
+  <path d="M268 190 C262 182 252 186 254 196 C256 204 266 202 268 194 V204 M276 186 C280 182 286 184 284 190 L276 198 H288"/>
+  <path d="M296 196 H306 M301 191 V201"/>
+  <path d="M316 190 V206 M316 198 C318 192 326 192 326 198 C326 204 318 206 316 200"/>
+  <!-- Laptop -->
+  <rect x="30" y="292" width="62" height="40" rx="4"/>
+  <path d="M20 340 H102 L96 332 H26 Z"/>
+  <path d="M44 306 L52 312 L44 318 M58 318 H70"/>
+  <!-- Star & sparkle -->
+  <path d="M170 300 L176 314 L190 316 L180 326 L182 340 L170 333 L158 340 L160 326 L150 316 L164 314 Z"/>
+  <path d="M250 290 V302 M244 296 H256"/>
+  <!-- Ruler -->
+  <rect x="262" y="320" width="80" height="16" rx="2" transform="rotate(-12 262 320)"/>
+  <path d="M272 318 V324 M284 315 V321 M296 313 V319 M308 310 V316 M320 308 V314"/>
+  <!-- Dots -->
+  <circle cx="140" cy="110" r="2"/><circle cx="300" cy="250" r="2"/><circle cx="110" cy="270" r="2"/>
+</svg>
