@@ -65,15 +65,15 @@ include __DIR__ . '/includes/page-banner.php';
           <div class="row g-3">
             <div class="col-md-6">
               <label class="ct-label" for="ctName">Your Name</label>
-              <input type="text" id="ctName" name="full_name" class="ct-input" placeholder="Enter your name" required>
+              <input type="text" id="ctName" name="full_name" class="ct-input" placeholder="Enter your name" autocomplete="name" autocapitalize="words" required>
             </div>
             <div class="col-md-6">
               <label class="ct-label" for="ctPhone">Phone Number</label>
-              <input type="tel" id="ctPhone" name="phone_number" class="ct-input" placeholder="Enter your mobile number" required>
+              <input type="tel" id="ctPhone" name="phone_number" class="ct-input" placeholder="Enter your mobile number" inputmode="tel" autocomplete="tel" required>
             </div>
             <div class="col-md-6">
               <label class="ct-label" for="ctEmail">Email Address</label>
-              <input type="email" id="ctEmail" name="email" class="ct-input" placeholder="name@example.com">
+              <input type="email" id="ctEmail" name="email" class="ct-input" placeholder="name@example.com" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false">
             </div>
             <div class="col-md-6">
               <label class="ct-label" for="ctBranch">Nearest Branch</label>

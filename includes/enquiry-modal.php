@@ -25,12 +25,12 @@
           
           <div class="mb-3">
             <label class="form-label-custom" for="modalFullName">Full Name</label>
-            <input type="text" class="form-control-custom" id="modalFullName" name="full_name" placeholder="Enter your name" required>
+            <input type="text" class="form-control-custom" id="modalFullName" name="full_name" placeholder="Enter your name" autocomplete="name" autocapitalize="words" required>
           </div>
 
           <div class="mb-3">
             <label class="form-label-custom" for="modalPhone">Phone Number</label>
-            <input type="tel" class="form-control-custom" id="modalPhone" name="phone_number" placeholder="Enter your mobile number" required>
+            <input type="tel" class="form-control-custom" id="modalPhone" name="phone_number" placeholder="Enter your mobile number" inputmode="tel" autocomplete="tel" required>
           </div>
 
           <div class="mb-3">

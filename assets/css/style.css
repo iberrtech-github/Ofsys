@@ -691,6 +691,9 @@ img {
   box-shadow: 0 35px 80px rgba(14, 3, 5, 0.4);
   overflow: hidden;
   max-height: calc(100vh - 2rem);
+  /* dvh keeps the card inside the real viewport on iPhone, where 100vh
+     sits behind the Safari toolbars and cuts off the submit button */
+  max-height: calc(100dvh - 2rem);
 }
 
 .modal-discount .modal-header {
@@ -716,6 +719,7 @@ img {
 .modal-discount .modal-body {
   padding: 14px 20px 18px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-discount .modal-body .mb-3,
@@ -756,6 +760,7 @@ img {
 .form-control-custom,
 .form-select-custom {
   width: 100%;
+  max-width: 100%;
   padding: 8px 12px;
   font-family: var(--font-body);
   font-size: 0.85rem;
@@ -765,6 +770,23 @@ img {
   color: #1E293B;
   transition: var(--transition);
   outline: none;
+  /* iOS Safari otherwise forces its own inset shadow and pill shape */
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* With the native control suppressed the dropdown needs its own arrow */
+.form-select-custom {
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2364748B'%3E%3Cpath d='M8 11.2 2.8 6l1.1-1.1L8 9l4.1-4.1L13.2 6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px 14px;
+}
+
+textarea.form-control-custom {
+  resize: vertical;
 }
 
 .form-control-custom:focus,
@@ -788,10 +810,16 @@ img {
   box-shadow: 0 10px 25px rgba(29, 106, 229, 0.4);
 }
 
-.btn-modal-submit:hover {
+@media (hover: hover) {
+  .btn-modal-submit:hover {
+    background: #1555BD;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(29, 106, 229, 0.5);
+  }
+}
+
+.btn-modal-submit:active {
   background: #1555BD;
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(29, 106, 229, 0.5);
 }
 
 /* ==========================================================================
@@ -881,5 +909,41 @@ img {
   }
   .creative-main-img {
     height: 300px;
+  }
+}
+
+/* ==========================================================================
+   Form fields on phones
+   iOS Safari zooms the whole page in when a focused field is under 16px, so
+   every input/select/textarea is held at 16px and given a 46px tap target.
+   ========================================================================== */
+@media (max-width: 767px) {
+  .form-control-custom,
+  .form-select-custom {
+    font-size: 16px;
+    padding: 11px 14px;
+    border-radius: 12px;
+  }
+  .form-select-custom {
+    padding-right: 36px;
+    height: 46px;
+  }
+  .form-label-custom {
+    font-size: 0.85rem;
+  }
+  .modal-discount .modal-dialog {
+    max-width: none;
+    padding: 0 8px;
+    margin: 0.5rem auto;
+  }
+  .modal-discount .modal-title {
+    font-size: 1.15rem;
+  }
+  .modal-discount .modal-body {
+    padding: 14px 16px 18px;
+  }
+  .btn-modal-submit {
+    padding: 14px;
+    font-size: 1rem;
   }
 }

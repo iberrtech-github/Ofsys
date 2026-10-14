@@ -110,6 +110,7 @@ a.ct-help-item:hover .ct-help-icon { background: var(--primary); color: #FFFFFF;
 }
 .ct-input {
   width: 100%;
+  max-width: 100%;
   padding: 12px 16px;
   background: #F8F7F7;
   border: 1px solid rgba(23, 7, 10, 0.12);
@@ -118,6 +119,19 @@ a.ct-help-item:hover .ct-help-icon { background: var(--primary); color: #FFFFFF;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  /* iOS Safari otherwise forces its own inset shadow and pill shape */
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* With the native control suppressed the dropdown needs its own arrow */
+select.ct-input {
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2317070A'%3E%3Cpath d='M8 11.2 2.8 6l1.1-1.1L8 9l4.1-4.1L13.2 6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px 14px;
 }
 .ct-input:focus {
   background: #FFFFFF;
@@ -308,4 +322,27 @@ textarea.ct-input { resize: vertical; min-height: 120px; }
   .ct-help, .ct-form-card { padding: 30px 20px; }
   .branch-grid > .branch-card { flex-basis: 100%; }
   .branch-card { padding: 24px 20px 20px; }
+}
+
+/* ==========================================================================
+   Contact form on phones
+   16px fields keep iOS Safari from zooming the page in on focus, and the
+   taller boxes give each field a comfortable tap target.
+   ========================================================================== */
+@media (max-width: 767px) {
+  .ct-input {
+    font-size: 16px;
+    padding: 13px 16px;
+  }
+  select.ct-input {
+    padding-right: 40px;
+    height: 48px;
+  }
+  textarea.ct-input {
+    min-height: 110px;
+  }
+  .ct-submit {
+    padding: 15px 18px;
+    font-size: 1rem;
+  }
 }

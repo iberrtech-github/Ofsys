@@ -213,12 +213,12 @@ include __DIR__ . '/page-banner.php';
 
             <div class="mb-3">
               <label class="form-label-custom">Full Name</label>
-              <input type="text" name="full_name" class="form-control-custom" placeholder="Your name" required>
+              <input type="text" name="full_name" class="form-control-custom" placeholder="Your name" autocomplete="name" autocapitalize="words" required>
             </div>
 
             <div class="mb-3">
               <label class="form-label-custom">Phone Number</label>
-              <input type="tel" name="phone_number" class="form-control-custom" placeholder="Mobile number" required>
+              <input type="tel" name="phone_number" class="form-control-custom" placeholder="Mobile number" inputmode="tel" autocomplete="tel" required>
             </div>
 
             <div class="mb-3">
