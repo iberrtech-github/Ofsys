@@ -203,17 +203,17 @@ textarea.ct-input { resize: vertical; min-height: 120px; }
   background: linear-gradient(90deg, var(--primary), var(--accent-gold));
 }
 
-/* 3 cards on the first row, the rest centred below (3 + 2) */
+/* All four branches on one row */
 .branch-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .branch-grid > .branch-card {
-  flex: 0 0 calc((100% - 40px) / 3);
+  flex: 0 0 calc((100% - 60px) / 4);
 }
 
 .branch-card {
@@ -308,6 +308,10 @@ textarea.ct-input { resize: vertical; min-height: 120px; }
   color: #FFFFFF;
 }
 .branch-card:hover .branch-action i { transform: translateX(4px); }
+
+@media (max-width: 1199px) {
+  .branch-card { padding: 24px 18px 18px; }
+}
 
 @media (max-width: 991px) {
   .branch-section { padding: 64px 0; }

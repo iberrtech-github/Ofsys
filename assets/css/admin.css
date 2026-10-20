@@ -376,9 +376,9 @@ textarea.ad-input { resize: vertical; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
   object-fit: cover;
   border: 1px solid var(--ad-line);
 }

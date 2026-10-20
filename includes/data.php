@@ -351,17 +351,12 @@ $branches = [
         'map_query' => 'VL Arcade Bypass Road Perinthalmanna Kerala 679322',
         'map_url' => 'https://www.google.com/maps?vet=10CAAQoqAOahcKEwiou57-uLaXAxUAAAAAHQAAAAAQDg..i&rlz=1C1GCEA_enIN1189IN1189&sca_esv=95a3924c91beb42b&udm&fvr=1&pvq=Cg0vZy8xMXh0eDAxY2prIhUKD29mc3lzIGVkdWNhdGlvbhACGAOJAcD3IzDK6QN2&lqi=Cg9vZnN5cyBlZHVjYXRpb25IkdyCwOe8gIAIWhcQABABGAAiD29mc3lzIGVkdWNhdGlvbpIBF2VkdWNhdGlvbmFsX2luc3RpdHV0aW9u&cs=0&um=1&ie=UTF-8&fb=1&gl=in&sa=X&ftid=0x3ba7cddc6960b0b9:0x7603e9ca3023f7c0'
     ],
-    'perinthalmanna-2' => [
-        'name' => 'OFSYS - Perinthalmanna 2',
+    'kochi' => [
+        'name' => 'OFSYS - Kochi',
         'badge' => '',
-        'address' => ['31/1505, Central Complex,', 'Shanti Nagar,', 'Perinthalmanna, Malappuram,', '679322, Kerala, India'],
-        'map_query' => 'Central Complex Shanti Nagar Perinthalmanna Kerala 679322'
-    ],
-    'ernakulam' => [
-        'name' => 'OFSYS - Ernakulam',
-        'badge' => '',
-        'address' => ['Door No. 48/148A5,', 'Manorama Memorial Edackoyvelil Building,', 'Aisha Road, Anjumury,', 'Thammanam, Vyttila,', 'Ernakulam - 682032, Kerala, India'],
-        'map_query' => 'Edackoyvelil Building Aisha Road Thammanam Vyttila Ernakulam 682032'
+        'address' => ['Door No. 48/148A5,', 'Manorama Memorial Edackoyvelil Building,', 'Aisha Road, Anjumury,', 'Thammanam, Vyttila,', 'Kochi, Keralam 682019'],
+        'map_query' => 'Ofsys Kochi Edackoyvelil Building Aisha Road Thammanam Vyttila Kochi 682019',
+        'map_url' => 'https://www.google.com/maps/place/Ofsys+Kochi/@9.9808274,76.3130974,17z/data=!3m1!4b1!4m6!3m5!1s0x3b080d99d6c5bb1d:0x77896d49c2e33b2d!8m2!3d9.9808221!4d76.3156723!16s%2Fg%2F11zc_r6kr_'
     ]
 ];
 

@@ -5,16 +5,11 @@
 require_once __DIR__ . '/includes/data.php';
 
 $pageTitle = 'Contact Us & Branch Campuses';
-$pageDesc = 'Get in touch with OFSYS Education. Visit our branches in Manjeri, Nilambur, Perinthalmanna and Ernakulam. Call +91 99463 30438.';
+$pageDesc = 'Get in touch with OFSYS Education. Visit our branches in Manjeri, Nilambur, Perinthalmanna and Kochi. Call +91 99463 30438.';
 $pageStyles = ['contact.css'];
 $hideFooterCta = true;
 
 $branchCards = $branches;
-if (isset($branchCards['perinthalmanna'])) {
-  $perinthalmanna = ['perinthalmanna' => $branchCards['perinthalmanna']];
-  unset($branchCards['perinthalmanna']);
-  $branchCards = $perinthalmanna + $branchCards;
-}
 
 include __DIR__ . '/includes/header.php';
 ?>
