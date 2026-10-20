@@ -1,6 +1,6 @@
 /**
  * OFSYS Education - Scroll Animation Engine
- * Lenis smooth scroll + GSAP ScrollTrigger driven effects.
+ * Native scrolling + GSAP ScrollTrigger driven effects.
  *
  * Markup hooks:
  *  .fade-anim            data-fade-from="left|right|top|bottom" data-delay=".3" data-fade-offset="40"
@@ -33,39 +33,29 @@
       setTimeout(finishLoader, 2500);
     }
     document.querySelectorAll('.scroll-highlight .hw').forEach(w => { w.style.opacity = 1; });
+    document.querySelectorAll('[data-aos]').forEach(el => el.classList.add('aos-in'));
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
 
   // ------------------------------------------------------------------
-  // 1. Lenis smooth scroll
+  // 1. Anchor links
+  //    The page scrolls natively. A JS-driven smooth-scroll library sits
+  //    between the wheel and the scrollbar and leaves every scroll a frame
+  //    or two behind; only in-page jumps are eased, by the browser itself.
   // ------------------------------------------------------------------
-  let lenis = null;
-  if (typeof window.Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(time => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    window.ofsysLenis = lenis;
-
-    // Pause page scrolling while a Bootstrap modal is open
-    document.addEventListener('show.bs.modal', () => lenis.stop());
-    document.addEventListener('hidden.bs.modal', () => lenis.start());
-
-    // Smooth in-page anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      const hash = link.getAttribute('href');
-      if (hash.length < 2 || link.hasAttribute('data-bs-toggle')) return;
-      link.addEventListener('click', e => {
-        const target = document.querySelector(hash);
-        if (!target) return;
-        e.preventDefault();
-        lenis.scrollTo(target, { offset: -90, duration: 1.4 });
-      });
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    const hash = link.getAttribute('href');
+    if (hash.length < 2 || link.hasAttribute('data-bs-toggle')) return;
+    link.addEventListener('click', e => {
+      const target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top: top, behavior: 'smooth' });
     });
-  }
-
+  });
   // ------------------------------------------------------------------
   // 2. Split headings into words (keeps <em>, <br> and other inline tags)
   // ------------------------------------------------------------------
@@ -203,7 +193,11 @@
   // ------------------------------------------------------------------
   // 7. Parallax drift
   // ------------------------------------------------------------------
-  gsap.utils.toArray('[data-parallax]').forEach(el => {
+  // Scrubbed effects repaint on every scroll frame, so they run only on
+  // wide screens and are skipped on phones, where they cost the most.
+  const richScroll = window.matchMedia('(min-width: 992px)').matches;
+
+  if (richScroll) gsap.utils.toArray('[data-parallax]').forEach(el => {
     const amount = Number(el.dataset.parallax) || -10;
     gsap.fromTo(el, { yPercent: -amount / 2 }, {
       yPercent: amount / 2,
@@ -216,6 +210,7 @@
   // 8. Statement text: light up word by word while scrolling
   // ------------------------------------------------------------------
   gsap.utils.toArray('.scroll-highlight').forEach(block => {
+    if (!richScroll) { block.querySelectorAll('.hw').forEach(w => { w.style.opacity = 1; }); return; }
     const words = block.querySelectorAll('.hw');
     gsap.to(words, {
       opacity: 1,
@@ -271,6 +266,97 @@
     });
   }
 
-  // Recalculate positions once images/fonts have loaded
-  window.addEventListener('load', () => ScrollTrigger.refresh());
+
+  // ------------------------------------------------------------------
+  // 11. [data-aos] reveal
+  //     Stands in for the AOS library: same markup, but one
+  //     IntersectionObserver and a CSS transition instead of a scroll
+  //     listener and a second CDN stylesheet plus script.
+  // ------------------------------------------------------------------
+  const revealItems = document.querySelectorAll('[data-aos]');
+  if (revealItems.length) {
+    if (!('IntersectionObserver' in window)) {
+      revealItems.forEach(el => el.classList.add('aos-in'));
+    } else {
+      const revealObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const delay = Number(entry.target.dataset.aosDelay) || 0;
+          entry.target.style.transitionDelay = delay + 'ms';
+          entry.target.classList.add('aos-in');
+          obs.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+      // Reloading halfway down the page restores the old scroll position, so
+      // everything above the viewport never intersects and would stay at
+      // opacity 0 for good. Those are shown outright; only what is still
+      // below the fold waits for the observer.
+      const observeOrShow = el => {
+        if (el.classList.contains('aos-in')) return;
+        if (el.getBoundingClientRect().bottom <= 0) {
+          revealObserver.unobserve(el);
+          el.classList.add('aos-in');
+          return;
+        }
+        el.classList.add('aos-prep');
+        revealObserver.observe(el);
+      };
+      revealItems.forEach(observeOrShow);
+      // Images and fonts settle after init and push blocks around, and a
+      // back/forward restore replays pageshow: re-check both times.
+      const recheckReveals = () => revealItems.forEach(observeOrShow);
+      window.addEventListener('load', recheckReveals);
+      window.addEventListener('pageshow', recheckReveals);
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // 12. Pause looping decoration while its section is off screen
+  // ------------------------------------------------------------------
+  if ('IntersectionObserver' in window) {
+    const sections = document.querySelectorAll('section, footer');
+    const idleObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('anim-idle', !entry.isIntersecting);
+      });
+    }, { rootMargin: '150px 0px' });
+    sections.forEach(section => idleObserver.observe(section));
+  }
+  // ------------------------------------------------------------------
+  // 13. Refresh-proofing
+  //     ScrollTrigger measures the page at init, before the browser has
+  //     restored the previous scroll position and before images have sized
+  //     themselves. Without a re-measure, triggers that the page already
+  //     sits past never fire and their elements stay in the hidden "from"
+  //     state - a reload mid-page then shows empty sections.
+  // ------------------------------------------------------------------
+  const refreshTriggers = () => ScrollTrigger.refresh();
+  window.addEventListener('load', () => {
+    refreshTriggers();
+    requestAnimationFrame(refreshTriggers);
+    setTimeout(refreshTriggers, 400);
+    setTimeout(showStranded, 1200);
+  });
+  // A back/forward (bfcache) restore runs no init at all.
+  window.addEventListener('pageshow', e => { if (e.persisted) { refreshTriggers(); showStranded(); } });
+
+  // Last resort: anything still invisible at or above the fold is revealed,
+  // so a missed trigger can never leave a blank section behind.
+  function showStranded() {
+    const fold = window.innerHeight;
+    gsap.utils.toArray('.fade-anim, .img-reveal, .stagger-anim > *').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top > fold) return;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.05) {
+        gsap.set(el, { autoAlpha: 1, x: 0, y: 0, clipPath: 'inset(0 0 0 0)' });
+      }
+    });
+    gsap.utils.toArray('.split-anim .w > span').forEach(word => {
+      if (word.getBoundingClientRect().top > fold) return;
+      const t = gsap.getProperty(word, 'yPercent');
+      if (Math.abs(Number(t) || 0) > 1) gsap.set(word, { yPercent: 0 });
+    });
+  }
 })();

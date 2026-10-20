@@ -7,15 +7,61 @@ document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   // 1. Sticky Header & Scroll Effects
+  //    Watched with a sentinel rather than a scroll listener: the callback
+  //    fires twice (crossing in, crossing out) instead of on every frame.
   const header = document.querySelector('.site-header');
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 40) {
-      header && header.classList.add('scrolled');
-    } else {
-      header && header.classList.remove('scrolled');
-    }
-  });
+  if (header) {
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:40px;pointer-events:none;';
+    document.body.prepend(sentinel);
 
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        header.classList.toggle('scrolled', !entry.isIntersecting);
+      }).observe(sentinel);
+    } else {
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+      }, { passive: true });
+    }
+  }
+
+  // 1a-0. Hero background film
+  //       Held back until the page has loaded so the ~800KB download never
+  //       competes with the stylesheets, and skipped entirely for anyone who
+  //       has asked for less motion or is on a metered connection.
+  const heroVideo = document.querySelector('.hero-video-el');
+  if (heroVideo && heroVideo.dataset.src) {
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const stillness = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!saveData && !stillness) {
+      const startFilm = () => {
+        heroVideo.src = heroVideo.dataset.src;
+        // Autoplay is refused in some settings; the wash alone still looks right.
+        const played = heroVideo.play();
+        if (played) played.catch(() => {});
+      };
+
+      if (document.readyState === 'complete') startFilm();
+      else window.addEventListener('load', startFilm, { once: true });
+
+      // Nothing to decode while the hero is off screen.
+      if ('IntersectionObserver' in window) {
+        const filmObserver = new IntersectionObserver(([entry]) => {
+          if (!heroVideo.src) return;
+          if (entry.isIntersecting) {
+            const r = heroVideo.play();
+            if (r) r.catch(() => {});
+          } else {
+            heroVideo.pause();
+          }
+        });
+        filmObserver.observe(heroVideo);
+      }
+    }
+  }
   // 1a. Courses dropdown on small screens (desktop opens it on hover)
   document.querySelectorAll('.nav-drop-toggle').forEach(function (toggle) {
     const item = toggle.closest('.dropdown');
@@ -26,39 +72,64 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 1b. Hero Banner Slider (fade + circular autoplay progress + slide counter)
-  const heroEl = document.querySelector('.hero-swiper');
-  if (heroEl && window.Swiper) {
-    const heroBanner = heroEl.closest('.hero-banner');
-    const progressEl = heroBanner.querySelector('.hero-progress');
-    const currentEl = heroBanner.querySelector('.hero-current');
-    const lineFill = heroBanner.querySelector('.hero-line-fill');
-    const total = heroEl.querySelectorAll('.swiper-slide').length;
+  // 1a-2. Swiper is fetched only on pages that contain a slider.
+  const sliderSelectors = '.testi-swiper, .course-swiper, .placed-swiper, .ins-testi-swiper, .home-reviews-swiper';
+  if (document.querySelector(sliderSelectors) && !window.Swiper) {
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    document.head.appendChild(css);
 
-    new Swiper(heroEl, {
+    const js = document.createElement('script');
+    js.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    js.onload = initSliders;
+    document.head.appendChild(js);
+  } else {
+    initSliders();
+  }
+
+  function initSliders() {
+  // 1b. Homepage reviews rotate inside the fixed hand illustration.
+  const homeReviewsEl = document.querySelector('.home-reviews-swiper');
+  if (homeReviewsEl && window.Swiper) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reviewFrame = homeReviewsEl.closest('.home-review-frame');
+    const autoplayToggle = reviewFrame.querySelector('.home-review-toggle');
+    const reviewsSlider = new Swiper(homeReviewsEl, {
       effect: 'fade',
       fadeEffect: { crossFade: true },
       loop: true,
-      speed: 1200,
-      autoplay: { delay: 6500, disableOnInteraction: false },
+      speed: prefersReducedMotion ? 0 : 550,
+      autoplay: prefersReducedMotion ? false : { delay: 2200, disableOnInteraction: false },
       navigation: {
-        prevEl: heroBanner.querySelector('.hero-prev'),
-        nextEl: heroBanner.querySelector('.hero-next')
+        prevEl: reviewFrame.querySelector('.home-review-prev'),
+        nextEl: reviewFrame.querySelector('.home-review-next')
       },
-      on: {
-        autoplayTimeLeft(swiper, time, progress) {
-          if (progressEl) progressEl.style.setProperty('--progress', 1 - progress);
-        },
-        slideChange(swiper) {
-          const idx = swiper.realIndex + 1;
-          if (currentEl) currentEl.textContent = String(idx).padStart(2, '0');
-          if (lineFill) lineFill.style.height = (idx / total * 100) + '%';
-        },
-        init() {
-          if (lineFill) lineFill.style.height = (1 / total * 100) + '%';
-        }
-      }
+      pagination: {
+        el: reviewFrame.querySelector('.home-review-pagination'),
+        clickable: true
+      },
+      allowTouchMove: true
     });
+
+    if (autoplayToggle) {
+      const updateToggle = () => {
+        const playing = reviewsSlider.autoplay.running;
+        const icon = autoplayToggle.querySelector('i');
+        if (icon) {
+          icon.classList.toggle('fa-pause', playing);
+          icon.classList.toggle('fa-play', !playing);
+        }
+        autoplayToggle.setAttribute('aria-label', playing ? 'Pause review slideshow' : 'Resume review slideshow');
+        autoplayToggle.setAttribute('title', playing ? 'Pause slideshow' : 'Resume slideshow');
+      };
+      autoplayToggle.addEventListener('click', () => {
+        if (reviewsSlider.autoplay.running) reviewsSlider.autoplay.stop();
+        else reviewsSlider.autoplay.start();
+      });
+      reviewsSlider.on('init autoplayStart autoplayStop', updateToggle);
+      updateToggle();
+    }
   }
 
   // 1c. Success Stories Slider
@@ -119,6 +190,8 @@ document.addEventListener('DOMContentLoaded', function () {
     thumbs.forEach(t => t.addEventListener('click', () => insTesti.slideTo(Number(t.dataset.index))));
   }
 
+  } // end initSliders
+
   // 1d. Journey stacking cards -> highlight active step dot
   const stackCards = document.querySelectorAll('.stack-card');
   const stepDots = document.querySelectorAll('.step-dot');
@@ -162,22 +235,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     }, { threshold: 0.4 });
-    metricNumbers.forEach(counter => counterObserver.observe(counter));
+    // A reload mid-page leaves counters above the viewport unobserved
+    // forever, stuck showing 0; those are counted up straight away.
+    metricNumbers.forEach(counter => {
+      if (counter.getBoundingClientRect().bottom <= 0) runCounter(counter);
+      else counterObserver.observe(counter);
+    });
   }
 
   // 3. Discount Modal Automatic Trigger
-  //    The homepage (marked with data-auto-enquiry) opens it on every visit
-  //    and on every refresh; other pages only open it from a button.
+  //    Pages marked with data-auto-enquiry may opt in; otherwise the modal
+  //    opens only from an enquiry button.
   const discountModalEl = document.getElementById('enrollDiscountModal');
   if (discountModalEl && window.bootstrap) {
     const discountModal = new bootstrap.Modal(discountModalEl);
 
     if (document.body.dataset.autoEnquiry === '1') {
-      setTimeout(() => {
-        if (!document.querySelector('.modal.show')) {
-          discountModal.show();
-        }
-      }, 1200);
+      const openAutoEnquiry = () => {
+        setTimeout(() => {
+          if (!document.querySelector('.modal.show')) {
+            discountModal.show();
+          }
+        }, 1200);
+      };
+      openAutoEnquiry();
+      // Coming back with the browser's Back button restores the page from
+      // the bfcache, so no script runs again and the popup would be skipped.
+      window.addEventListener('pageshow', e => { if (e.persisted) openAutoEnquiry(); });
     }
 
     // Trigger modal from any element with class .trigger-discount-modal

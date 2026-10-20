@@ -20,6 +20,10 @@ if (!defined('BASE_PATH')) {
     define('BASE_PATH', $sitePath);
 }
 
+// The admin cannot fall back to static content, so it always waits for a
+// real connection attempt instead of the public pages' down-cooldown.
+define('OFSY_DB_MUST_CONNECT', true);
+
 define('PROJECT_ROOT', dirname(__DIR__, 2));
 define('UPLOAD_ROOT', PROJECT_ROOT . '/uploads');
 
@@ -95,6 +99,10 @@ function admin_take_flash()
    Image uploads
    -------------------------------------------------------------------------- */
 
+// Nothing on the site displays an uploaded image wider than this.
+define('ADMIN_IMAGE_MAX_WIDTH', 1280);
+define('ADMIN_IMAGE_QUALITY', 82);
+
 /**
  * Validates and stores one uploaded image inside uploads/<folder>/.
  * Returns the stored path relative to the project root, or null on failure
@@ -149,7 +157,98 @@ function admin_store_image($field, $folder, &$error = null)
         return null;
     }
 
+    // A photo straight off a phone or a stock site can be several megabytes
+    // and thousands of pixels wide, while the gallery and placement cards
+    // never show one wider than ~700px. Shrink it once, here, so visitors
+    // are never made to download the original.
+    admin_shrink_image($dir . '/' . $name, $info[2]);
+
     return 'uploads/' . $folder . '/' . $name;
+}
+
+/**
+ * Resizes a stored upload down to ADMIN_IMAGE_MAX_WIDTH and re-encodes it at a
+ * sane quality. Failures are ignored on purpose: a slightly heavy image is a
+ * far better outcome than a failed save, and GD may be missing a codec.
+ */
+function admin_shrink_image($path, $type, $maxWidth = ADMIN_IMAGE_MAX_WIDTH)
+{
+    if (!function_exists('imagecreatetruecolor')) {
+        return;
+    }
+
+    $loaders = [
+        IMAGETYPE_JPEG => 'imagecreatefromjpeg',
+        IMAGETYPE_PNG  => 'imagecreatefrompng',
+        IMAGETYPE_GIF  => 'imagecreatefromgif',
+        IMAGETYPE_WEBP => 'imagecreatefromwebp',
+    ];
+    if (!isset($loaders[$type]) || !function_exists($loaders[$type])) {
+        return;
+    }
+
+    $src = @$loaders[$type]($path);
+    if (!$src) {
+        return;
+    }
+
+    $width  = imagesx($src);
+    $height = imagesy($src);
+
+    if ($width > $maxWidth) {
+        $newHeight = (int) round($height * $maxWidth / $width);
+        $resized   = imagecreatetruecolor($maxWidth, $newHeight);
+        // Keep PNG/GIF/WEBP transparency through the resample.
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
+        imagecopyresampled($resized, $src, 0, 0, 0, 0, $maxWidth, $newHeight, $width, $height);
+        imagedestroy($src);
+        $src = $resized;
+    }
+
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            @imagejpeg($src, $path, ADMIN_IMAGE_QUALITY);
+            break;
+        case IMAGETYPE_WEBP:
+            @imagewebp($src, $path, ADMIN_IMAGE_QUALITY);
+            break;
+        case IMAGETYPE_PNG:
+            // A photo saved as PNG stays huge however hard it is compressed,
+            // so anything without transparency is reduced to a palette.
+            if (!admin_png_has_alpha($src)) {
+                @imagetruecolortopalette($src, true, 255);
+            }
+            @imagepng($src, $path, 9);
+            break;
+        case IMAGETYPE_GIF:
+            @imagegif($src, $path);
+            break;
+    }
+
+    imagedestroy($src);
+    clearstatcache(true, $path);
+}
+
+/** True when any pixel of the image is not fully opaque. */
+function admin_png_has_alpha($img)
+{
+    $w = imagesx($img);
+    $h = imagesy($img);
+    // Sampling a grid is enough: a transparent PNG is transparent in patches,
+    // not in single stray pixels, and this keeps large uploads quick to check.
+    $stepX = max(1, (int) ($w / 60));
+    $stepY = max(1, (int) ($h / 60));
+
+    for ($x = 0; $x < $w; $x += $stepX) {
+        for ($y = 0; $y < $h; $y += $stepY) {
+            if (((imagecolorat($img, $x, $y) >> 24) & 0x7F) > 0) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 /** Deletes a previously uploaded file; external URLs are left alone. */

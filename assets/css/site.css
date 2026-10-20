@@ -712,6 +712,16 @@ html, body { overflow-x: clip; }
 .logo-marquee::after { right: 0; background: linear-gradient(-90deg, var(--fade, #FFFFFF), transparent); }
 .logo-marquee .marquee-track { animation-duration: 45s; gap: 22px; }
 .logo-marquee.reverse .marquee-track { animation-direction: reverse; }
+/* Hovering (or tabbing to) any logo holds the strip still; it picks up from
+   the same spot the moment the pointer leaves. :has() keeps it to the tiles
+   themselves, with a plain hover fallback for browsers without it. */
+.logo-marquee:hover .marquee-track,
+.logo-marquee:focus-within .marquee-track { animation-play-state: paused; }
+@supports selector(:has(*)) {
+  .logo-marquee:hover .marquee-track { animation-play-state: running; }
+  .logo-marquee:has(.logo-tile:hover) .marquee-track,
+  .logo-marquee:focus-within .marquee-track { animation-play-state: paused; }
+}
 .logo-tile {
   width: 180px;
   height: 96px;
@@ -1562,14 +1572,22 @@ html, body { overflow-x: clip; }
 @media (max-width: 767px) {
   .pbx:not(.pbx-noimg) .pbx-copy { max-width: 100%; }
   .pbx:not(.pbx-noimg) .pbx-slashes { display: none; }
+  /* Phones: give the banner photo a broad, square-edged crop like the desktop
+     image rather than the narrow portrait treatment. */
   .pbx:not(.pbx-noimg) .pbx-media {
     position: relative;
     inset: auto;
-    width: auto;
-    height: clamp(190px, 56vw, 250px);
-    margin: 28px 0 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.05 / 1;
+    margin: 22px 0 0;
   }
-  .pbx:not(.pbx-noimg) .pbx-media-frame { clip-path: none; }
+  .pbx:not(.pbx-noimg) .pbx-media-frame {
+    clip-path: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .pbx:not(.pbx-noimg) .pbx-media-frame img { object-position: center; }
   .pbx:not(.pbx-noimg) .pbx-media-frame::after { background: none; }
 
   .pbx-course { padding: 32px 0 0; }
@@ -1581,9 +1599,10 @@ html, body { overflow-x: clip; }
   .pbx-course .pbx-media {
     position: relative;
     inset: auto;
-    width: auto;
-    height: clamp(190px, 56vw, 250px);
-    margin: 28px 0 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.05 / 1;
+    margin: 22px 0 0;
   }
 }
 
@@ -1907,3 +1926,48 @@ html, body { overflow-x: clip; }
 .lc-status.is-err { color: var(--primary); }
 .lc-btn.is-busy { pointer-events: none; opacity: 0.85; }
 .modal-lead-choice.is-sent .lc-text { display: none; }
+
+/* ==========================================================================
+   [data-aos] reveal - the few animations the AOS library was carried for.
+   animations.js adds .aos-prep on observe and .aos-in when the element
+   first scrolls into view.
+   ========================================================================== */
+.js [data-aos] {
+  opacity: 0;
+}
+
+[data-aos].aos-prep {
+  opacity: 0;
+  transition: opacity .6s ease-out, transform .6s ease-out;
+  will-change: opacity, transform;
+}
+[data-aos="fade-up"].aos-prep    { transform: translate3d(0, 28px, 0); }
+[data-aos="fade-left"].aos-prep  { transform: translate3d(28px, 0, 0); }
+[data-aos="fade-right"].aos-prep { transform: translate3d(-28px, 0, 0); }
+
+[data-aos].aos-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Once the element has settled, stop asking the compositor for a layer. */
+[data-aos].aos-in { will-change: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-aos],
+  [data-aos].aos-prep { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   Offscreen sections stop animating.
+   The hero and a few other blocks carry looping decorations (orbits, bobs,
+   the logo marquee). Left alone they keep the compositor busy long after
+   they have scrolled away, which is what makes scrolling feel heavy.
+   animations.js adds .anim-idle to any section that is out of view.
+   ========================================================================== */
+.anim-idle,
+.anim-idle *,
+.anim-idle *::before,
+.anim-idle *::after {
+  animation-play-state: paused !important;
+}

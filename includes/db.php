@@ -4,10 +4,17 @@
  * Edit the four settings below when moving the site to live hosting.
  */
 
-define('DB_HOST', 'localhost');
+// 127.0.0.1 rather than 'localhost': on Windows the name resolves to ::1
+// first, and MySQL usually listens only on IPv4, so every page paid for a
+// failed IPv6 attempt before the real connection was made.
+define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'ofsy_db');
 define('DB_USER', 'root');
 define('DB_PASS', '');
+
+// Seconds to stop retrying after a failed connection. Short enough that the
+// site picks the database back up on its own once MySQL is started again.
+define('OFSY_DB_DOWN_TTL', 10);
 
 /**
  * Shared PDO handle. Returns null when the database is unreachable so that the
@@ -23,6 +30,16 @@ function ofsy_db()
     }
     $tried = true;
 
+    // While MySQL is down every page that needs it pays the full connect
+    // timeout, so a failure is remembered for a few seconds and the pages
+    // that follow render straight away from their fallbacks. The admin
+    // defines OFSY_DB_MUST_CONNECT and always tries for real.
+    $downFlag = sys_get_temp_dir() . '/ofsys-db-down';
+    $skipWhileDown = !defined('OFSY_DB_MUST_CONNECT');
+    if ($skipWhileDown && is_file($downFlag) && (time() - filemtime($downFlag)) < OFSY_DB_DOWN_TTL) {
+        return null;
+    }
+
     try {
         $pdo = new PDO(
             'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
@@ -32,10 +49,18 @@ function ofsy_db()
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES   => false,
+                // A database that is down must not hold a page open for the
+                // full system timeout; the pages render without it.
+                PDO::ATTR_TIMEOUT            => 1,
             ]
         );
+        // Reachable again: drop the marker so the cooldown ends at once.
+        if (is_file($downFlag)) {
+            @unlink($downFlag);
+        }
     } catch (PDOException $e) {
         error_log('OFSYS DB connection failed: ' . $e->getMessage());
+        @touch($downFlag);
         $pdo = null;
     }
 

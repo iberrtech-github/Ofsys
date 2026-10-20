@@ -30,14 +30,14 @@
         <!-- Brand -->
         <div class="col-lg-4 col-md-6">
           <a href="<?php echo BASE_PATH; ?>/" class="d-inline-block mb-3">
-            <img src="<?php echo BASE_PATH; ?>/assets/images/logo-white.png" alt="OFSYS Education" loading="lazy" style="height: 56px; width: auto; object-fit: contain;">
+            <img src="<?php echo BASE_PATH; ?>/assets/images/logo-white.png" alt="OFSYS Education" width="400" height="154" loading="lazy" decoding="async" style="height: 56px; width: auto; object-fit: contain;">
           </a>
           <p class="mb-3" style="font-size: 0.9rem; line-height: 1.7;">
            OFSYS Education offers job-focused training in SAP, Gen AI, Data, Full Stack Development, Digital Marketing, and Office Administration with placement support.
           <div class="footer-social d-flex gap-2">
             <a href="https://www.instagram.com/ofsyseducations_official" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/p/OFSYS-Educations-61578847598933/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com/company/ofsys-educations/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
             <a href="<?php echo WHATSAPP_LINK; ?>" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
           </div>
         </div>
@@ -125,24 +125,8 @@
   <!-- Every script is deferred: they download in parallel while the page
        paints, then run in order once parsing is done. -->
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script defer src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script>
-    // Deferred scripts run before DOMContentLoaded, so AOS is ready by then
-    document.addEventListener('DOMContentLoaded', function () {
-      if (typeof AOS !== 'undefined') {
-        AOS.init({
-          duration: 700,
-          once: true,
-          offset: 50,
-          easing: 'ease-out-cubic'
-        });
-      }
-    });
-  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>
     // Contact details for the post-submit follow-up options
     window.OFSYS_CONTACT = {

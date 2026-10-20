@@ -12,6 +12,7 @@ $pageDesc = 'Receive practical, job-oriented training tailored to today’s care
 $pageStyles = ['home.css'];
 $hideFooterCta = true; // the homepage ends with its own final CTA
 $autoEnquiryPopup = true; // enquiry popup opens on every homepage visit/refresh
+$preloadImage = "assets/images/hero-img-cutout.webp";
 
 include __DIR__ . '/includes/header.php';
 
@@ -28,6 +29,11 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
      1. HERO
      ========================================================================== -->
 <section class="ins-hero mouse-parallax">
+  <div class="hero-video" aria-hidden="true">
+    <video class="hero-video-el" data-src="<?php echo BASE_PATH; ?>/assets/video/hero%20bg%20video.mp4"
+           muted loop playsinline preload="none" tabindex="-1"></video>
+    <span class="hero-video-wash"></span>
+  </div>
 
   <div class="hero-sketch sketch-dash">
     <svg viewBox="0 0 300 150" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
@@ -43,7 +49,7 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
           <em class="no-split">Transform<svg class="title-underline" viewBox="0 0 300 20" preserveAspectRatio="none" fill="none"><path d="M3 14 C70 4 160 4 297 12" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></em>
           Your Career
         </h1>
-        <p class="hero-tagline hero-intro">Build Skills. Gain Experience. Shape Your Future.</p>
+        <p class="hero-tagline hero-intro">Build Skills. Shape Your Future.</p>
         <div class="d-flex flex-wrap align-items-center gap-4 hero-intro">
           <a href="<?php echo BASE_PATH; ?>/courses" class="theme-btn">Explore Our Courses <i class="fa-solid fa-arrow-right"></i></a>
           <button type="button" class="hero-call trigger-discount-modal" data-course="">
@@ -98,10 +104,30 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
               <circle cx="60" cy="300" r="5"/><circle cx="260" cy="260" r="7"/>
             </g>
           </svg>
-          <div class="hai-photo">
+          <div class="hai-photo hai-photo-cut">
             <div class="hai-photo-inner">
-              <img src="assets/images/hero-img.jpg" alt="Students collaborating in a practical education session" fetchpriority="high" decoding="async">
-              <span class="hai-scan" aria-hidden="true"></span>
+              <span class="hai-stage" aria-hidden="true">
+                <span class="hai-stage-grid"></span>
+                <span class="hai-scan"></span>
+              </span>
+              <svg class="hai-circuit" viewBox="0 0 300 420" fill="none" aria-hidden="true">
+                <g class="hai-trace" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M296 70 H236 L212 94 V150 H176"/>
+                  <path d="M296 128 H262 L240 150 V214"/>
+                  <path d="M4 112 H52 L72 132 V188 H104"/>
+                  <path d="M4 196 H40 L62 218 V268"/>
+                  <path d="M296 248 H250 L228 270 V322 H196"/>
+                  <path d="M4 300 H46 L68 322 V360"/>
+                </g>
+                <g class="hai-dot" fill="currentColor">
+                  <circle cx="212" cy="94" r="3.4"/><circle cx="176" cy="150" r="3"/>
+                  <circle cx="240" cy="214" r="3.4"/><circle cx="72" cy="132" r="3"/>
+                  <circle cx="104" cy="188" r="3.4"/><circle cx="62" cy="268" r="3"/>
+                  <circle cx="228" cy="270" r="3.4"/><circle cx="68" cy="360" r="3"/>
+                </g>
+              </svg>
+              <img src="assets/images/hero-img-cutout.webp" alt="OFSYS graduate in cap and gown" width="487" height="699" fetchpriority="high" decoding="async">
+              <span class="hai-pulse" aria-hidden="true"></span>
             </div>
           </div>
           <span class="hai-tile hai-tile-1"><i class="fa-solid fa-chart-column"></i></span>
@@ -133,14 +159,10 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
       </div>
     </div>
   </div>
-
-  <div class="hero-edge">
-    <svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path fill="#FFFDFB" d="M0,110 L0,62 C90,40 160,78 260,64 C340,52 380,30 470,46 C560,62 600,84 700,68 C800,52 830,30 930,40 C1040,52 1080,82 1180,70 C1270,60 1340,34 1440,48 L1440,110 Z"/></svg>
-  </div>
 </section>
 
 <!-- ==========================================================================
-     2. ABOUT OFSYS
+     3. ABOUT OFSYS
      ========================================================================== -->
 <section class="ins-about" id="home-about">
   <div class="container">
@@ -254,10 +276,10 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
       <div class="col-lg-5">
         <div class="value-collage">
           <div class="vc-main img-reveal" data-reveal="bottom">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&auto=format&fit=crop&q=80" alt="Learners on a practical project" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&auto=format&fit=crop&q=72&fm=webp" alt="Learners on a practical project" loading="lazy">
           </div>
           <div class="vc-small img-reveal" data-reveal="left">
-            <img src="assets/images/img1.jpg" alt="Hands-on tool practice" loading="lazy">
+            <img src="assets/images/mtc.jpg" alt="Hands-on tool practice" loading="lazy">
           </div>
           <div class="vc-badge float-bob-y">
             <strong>6</strong>
@@ -299,7 +321,7 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
           <a href="<?php echo BASE_PATH; ?>/placements" class="theme-btn">Explore Career Support <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div class="career-img img-reveal mt-5" data-reveal="left">
-          <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=900&auto=format&fit=crop&q=80" alt="Getting ready for the workplace" loading="lazy">
+          <img src="assets/images/career img.jpg" alt="Getting ready for the workplace" loading="lazy">
         </div>
       </div>
       <div class="col-lg-7">
@@ -337,6 +359,74 @@ $journeyPath = 'M0,100 C80,108 120,157 240,150 C360,143 560,60 720,60 C880,60 10
       <?php $allLogos = array_merge($affiliations, $certifications); for ($r = 0; $r < 2; $r++): foreach ($allLogos as $logo): ?>
         <div class="logo-tile"><img src="<?php echo BASE_PATH . '/' . $logo['image']; ?>" alt="<?php echo htmlspecialchars($logo['name']); ?>" title="<?php echo htmlspecialchars($logo['name']); ?>" loading="lazy"></div>
       <?php endforeach; endfor; ?>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     CUSTOMER REVIEWS
+     ========================================================================== -->
+<section class="home-reviews-section" aria-labelledby="home-reviews-title">
+  <div class="container">
+    <div class="home-reviews-heading">
+      <h2 class="home-reviews-hashtag" id="home-reviews-title"><span>Google</span> Reviews</h2>
+    </div>
+
+    <div class="home-reviews-stage">
+      <div class="home-review-frame">
+        <span class="home-review-google" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img" focusable="false">
+            <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+            <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+            <path fill="#FBBC05" d="M11.69 28.18A13.2 13.2 0 0 1 11 24c0-1.45.25-2.86.69-4.18v-5.7H4.34A21.99 21.99 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"/>
+            <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7C13.42 14.62 18.27 10.75 24 10.75z"/>
+          </svg>
+        </span>
+        <div class="swiper home-reviews-swiper" aria-label="Student reviews">
+          <div class="swiper-wrapper">
+            <?php
+            $homeReviews = [
+                ['name' => 'Hasna Fahim', 'reviews' => '2 reviews', 'initial' => 'H', 'date' => 'a month ago', 'text' => 'I am currently doing data science course in OFSYS institute Perinthalmanna. Its a really good experience studying here. The faculties are really great here. They make us study very well.'],
+                ['name' => 'Muhammed Sayeed', 'reviews' => '1 review', 'initial' => 'M', 'date' => 'a month ago', 'text' => 'I had a good learning experience at OFSYS Education.The Data Analytics training is practical and easy to understand.The mentors are supportive and explain concepts clearly.'],
+                ['name' => 'Rinshana Rinu', 'reviews' => '1 review', 'initial' => 'R', 'date' => '2 months ago', 'text' => "I'm very happy to be a student at OFSYS Education. The teaching methods are easy to understand, and the trainers focus on practical learning. The institute offers good support throughout the course and motivates students to achieve their career goals. Highly recommended."],
+                ['name' => 'Hiba A', 'reviews' => '1 review', 'initial' => 'H', 'date' => '4 months ago', 'text' => 'I am a student at OFSYS Education. The training is excellent, the faculty is supportive, and the learning environment is very good. The practical sessions and guidance have helped me improve my skills significantly. Highly recommended.'],
+                ['name' => 'Saneesh Sanu', 'reviews' => '1 review', 'initial' => 'S', 'date' => '9 months ago', 'text' => 'I am a student of this institution and my experience has been very good. The teachers are supportive and explain concepts clearly. The learning environment is friendly and motivating. This institution helped me improve my knowledge and confidence.'],
+                ['name' => 'Shuhaib vp', 'reviews' => '1 review', 'initial' => 'S', 'date' => '4 days ago', 'text' => 'My institution has provided me with valuable knowledge and practical skills in Data Analytics. The training helped me improve my analytical thinking, problem-solving abilities, and technical skills. I am grateful to my trainers for their guidance and support. Overall, it has been a great learning experience that has helped me build confidence and prepare for my future career as a Data Analyst.']
+            ];
+            foreach ($homeReviews as $reviewIndex => $review): ?>
+              <article class="swiper-slide home-review-slide" aria-label="Review <?php echo $reviewIndex + 1; ?> of <?php echo count($homeReviews); ?>">
+                <div class="home-review-profile">
+                  <span class="home-review-avatar"><?php echo htmlspecialchars($review['initial']); ?></span>
+                  <span class="home-review-author">
+                    <strong><?php echo htmlspecialchars($review['name']); ?></strong>
+                  </span>
+                  <i class="fa-solid fa-ellipsis-vertical home-review-menu" aria-hidden="true"></i>
+                </div>
+                <div class="home-review-rating">
+                  <span class="home-review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                  <time><?php echo htmlspecialchars($review['date']); ?></time>
+                </div>
+                <p><?php echo htmlspecialchars($review['text']); ?></p>
+                <div class="home-review-bottom-stars" aria-hidden="true">★★★★★</div>
+              </article>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <div class="home-review-controls" aria-label="Review slideshow controls">
+          <button type="button" class="home-review-control home-review-prev" aria-label="Previous review">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="home-review-pagination" aria-label="Choose a review"></div>
+          <button type="button" class="home-review-control home-review-next" aria-label="Next review">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+          <span class="home-review-control-divider" aria-hidden="true"></span>
+          <button type="button" class="home-review-control home-review-toggle" aria-label="Pause review slideshow" title="Pause slideshow">
+            <i class="fa-solid fa-pause" aria-hidden="true"></i>
+          </button>
+        </div>
+        <span class="home-review-quote" aria-hidden="true">“</span>
+      </div>
     </div>
   </div>
 </section>

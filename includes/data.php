@@ -254,14 +254,14 @@ $courses = [
 
 // Course Cover Images (used on cards, banners & mega menus)
 $course_images = [
-    'office-administration' => 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=900&auto=format&fit=crop&q=80',
-    'diploma-in-global-accounting-with-sap' => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&fit=crop&q=80',
-    'sap-mm-material-management' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=80',
-    'data-analytics-with-gen-ai' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&auto=format&fit=crop&q=80',
+    'office-administration' => 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=900&auto=format&fit=crop&q=72&fm=webp',
+    'diploma-in-global-accounting-with-sap' => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&fit=crop&q=72&fm=webp',
+    'sap-mm-material-management' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=72&fm=webp',
+    'data-analytics-with-gen-ai' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&auto=format&fit=crop&q=72&fm=webp',
     'data-science-with-gen-ai' => BASE_PATH . '/assets/images/data%20scince.jpg',
-    'python-full-stack-development' => 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=80',
-    'digital-marketing-with-graphic-designing' => 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&auto=format&fit=crop&q=80',
-    'diploma-in-business-administration-with-hr-management' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&auto=format&fit=crop&q=80'
+    'python-full-stack-development' => 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=72&fm=webp',
+    'digital-marketing-with-graphic-designing' => 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=900&auto=format&fit=crop&q=72&fm=webp',
+    'diploma-in-business-administration-with-hr-management' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&auto=format&fit=crop&q=72&fm=webp'
 ];
 foreach ($courses as $cKey => $cVal) {
     $courses[$cKey]['image'] = $course_images[$cKey];
@@ -275,7 +275,7 @@ $hero_slides = [
         'desc' => 'Practical, job-oriented training tailored to today’s career opportunities. Learn from experienced trainers, work on modern tools and get prepared for the workplace.',
         'cta' => 'Explore Courses',
         'link' => '/courses',
-        'image' => 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1920&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1600&auto=format&fit=crop&q=72&fm=webp'
     ],
     [
         'tag' => 'SAP • Gen AI • Full Stack',
@@ -283,7 +283,7 @@ $hero_slides = [
         'desc' => 'Hands-on training on SAP S/4HANA, Power BI, Python, Django, React, Photoshop and Gen AI — with live projects that build a real portfolio.',
         'cta' => 'View Programs',
         'link' => '/courses',
-        'image' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600&auto=format&fit=crop&q=72&fm=webp'
     ],
     [
         'tag' => '100% Placement Support',
@@ -291,7 +291,7 @@ $hero_slides = [
         'desc' => 'Resume building, mock interviews, corporate orientation and direct employer connects across India and the GCC — we stay with you until you are hired.',
         'cta' => 'See Placements',
         'link' => '/placements',
-        'image' => 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&auto=format&fit=crop&q=72&fm=webp'
     ]
 ];
 
@@ -301,30 +301,30 @@ $journey_steps = [
         'title' => 'Choose Your Career Path',
         'desc' => 'Talk to our career counsellors, understand your strengths and pick the program that matches your interests — SAP, Data, AI, Development, Marketing or Administration.',
         'points' => ['Free career counselling', 'Weekday & weekend batches', 'Flat 20% early bird scholarship'],
-        'image' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&auto=format&fit=crop&q=72&fm=webp'
     ],
     [
         'title' => 'Learn by Doing, Every Day',
         'desc' => 'Train in our labs with experienced trainers on real industry software. Every module ends with practical assignments and live projects, not just theory.',
         'points' => ['Industry-standard tools', 'Real-world projects', 'Personal mentoring'],
-        'image' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&auto=format&fit=crop&q=72&fm=webp'
     ],
     [
         'title' => 'Get Certified & Get Hired',
         'desc' => 'Earn a recognized certification, polish your resume, crack mock interviews and step into your first role with our dedicated placement support.',
         'points' => ['Recognized certification', 'Mock HR & technical rounds', 'Direct employer connects'],
-        'image' => 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=900&auto=format&fit=crop&q=80'
+        'image' => 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=900&auto=format&fit=crop&q=72&fm=webp'
     ]
 ];
 
 // Inner Page Banner Images
 $page_banners = [
-    'about' => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&auto=format&fit=crop&q=80',
+    'about' => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&auto=format&fit=crop&q=72&fm=webp',
     'courses' => BASE_PATH . '/assets/images/courses%20img.jpg',
-    'gallery' => 'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1920&auto=format&fit=crop&q=80',
-    'placements' => 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&auto=format&fit=crop&q=80',
-    'blog' => 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=1920&auto=format&fit=crop&q=80',
-    'contact' => 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&auto=format&fit=crop&q=80'
+    'gallery' => 'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1600&auto=format&fit=crop&q=72&fm=webp',
+    'placements' => 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1600&auto=format&fit=crop&q=72&fm=webp',
+    'blog' => 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=1600&auto=format&fit=crop&q=72&fm=webp',
+    'contact' => 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1600&auto=format&fit=crop&q=72&fm=webp'
 ];
 
 // Branches Network (from ofsysedu.com/contact)
@@ -418,12 +418,12 @@ $faqs = [
 
 // Why Choose Us Pillars (From Client PDF)
 $why_choose = [
-    ['title' => 'Industry-Driven Training', 'desc' => 'Our courses are designed to teach practical knowledge and skills that are relevant to the needs of today’s workplace.', 'img' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-chart-pie'],
-    ['title' => 'Professional Trainers', 'desc' => 'Train with professionals with professional knowledge and experience in the field.', 'img' => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-chalkboard-user'],
-    ['title' => 'Hands-on Learning', 'desc' => 'Latest Software, Tools, Assignments & Real World Projects.', 'img' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-laptop-code'],
-    ['title' => 'Career Support', 'desc' => 'Prepare for the workplace with resume preparation, interview training, mock interviews and corporate orientation.', 'img' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-handshake-angle'],
-    ['title' => 'Flexible Batches', 'desc' => 'Select weekday or weekend batches that fit your learning around your other commitments.', 'img' => 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-clock-rotate-left'],
-    ['title' => 'Personal Attention', 'desc' => 'Smaller classes create an environment that provides the opportunity for interaction, guidance and focused learning.', 'img' => 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=80', 'icon' => 'fa-solid fa-user-check']
+    ['title' => 'Industry-Driven Training', 'desc' => 'Our courses are designed to teach practical knowledge and skills that are relevant to the needs of today’s workplace.', 'img' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-chart-pie'],
+    ['title' => 'Professional Trainers', 'desc' => 'Train with professionals with professional knowledge and experience in the field.', 'img' => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-chalkboard-user'],
+    ['title' => 'Hands-on Learning', 'desc' => 'Latest Software, Tools, Assignments & Real World Projects.', 'img' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-laptop-code'],
+    ['title' => 'Career Support', 'desc' => 'Prepare for the workplace with resume preparation, interview training, mock interviews and corporate orientation.', 'img' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-handshake-angle'],
+    ['title' => 'Flexible Batches', 'desc' => 'Select weekday or weekend batches that fit your learning around your other commitments.', 'img' => 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-clock-rotate-left'],
+    ['title' => 'Personal Attention', 'desc' => 'Smaller classes create an environment that provides the opportunity for interaction, guidance and focused learning.', 'img' => 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=72&fm=webp', 'icon' => 'fa-solid fa-user-check']
 ];
 
 // What You Get (From Client PDF)
@@ -452,7 +452,7 @@ $blogs = [
         'category' => 'AI & Technology',
         'date' => 'October 02, 2026',
         'read_time' => '5 min read',
-        'image' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+        'image' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=72&fm=webp',
         'excerpt' => 'From automating routine analysis to augmenting creative decision-making, Generative AI skills are now mandatory across all job sectors.',
         'content' => '<p>The rapid rise of Generative AI has redefined what it means to be job-ready in 2026. Whether in Data Science, Digital Marketing, or Office Administration, professionals who know how to wield AI tools operate 5x faster than those who do not.</p><p>At OFSYS Education, we have embedded Gen AI concepts right into the core syllabus of our data, programming, and administration programs, giving our students an unfair advantage in job interviews.</p>'
     ]
