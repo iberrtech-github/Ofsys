@@ -10,6 +10,8 @@ if (!defined('BASE_PATH')) {
 $currentPage = basename($_SERVER['PHP_SELF'], '.php');
 $pageTitle = isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME . ' | ' . SITE_TAGLINE;
 $pageDesc = isset($pageDesc) ? $pageDesc : 'OFSYS Education provides practical, job-oriented professional courses in SAP, Data Analytics, Python Full Stack, and Office Administration with 100% placement support.';
+// A page may set $canonicalUrl itself; otherwise the clean URL of this request.
+$canonicalUrl = (isset($canonicalUrl) && $canonicalUrl !== '') ? $canonicalUrl : canonical_url();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,11 +32,16 @@ $pageDesc = isset($pageDesc) ? $pageDesc : 'OFSYS Education provides practical, 
   <meta name="keywords" content="OFSYS Education, SAP FICO, SAP MM, Data Analytics Gen AI, Data Science, Python Full Stack, Office Administration, Perinthalmanna, Calicut, Kochi, Kerala">
   <meta name="author" content="OFSYS Education">
 
+  <!-- Canonical: the single address this page should be indexed under -->
+  <link rel="canonical" href="<?php echo htmlspecialchars($canonicalUrl); ?>">
+
   <!-- Open Graph / Social Meta -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="<?php echo htmlspecialchars($canonicalUrl); ?>">
+  <meta property="og:site_name" content="<?php echo htmlspecialchars(SITE_NAME); ?>">
   <meta property="og:title" content="<?php echo htmlspecialchars($pageTitle); ?>">
   <meta property="og:description" content="<?php echo htmlspecialchars($pageDesc); ?>">
-  <meta property="og:image" content="<?php echo BASE_PATH; ?>/assets/images/logo.png">
+  <meta property="og:image" content="<?php echo htmlspecialchars(site_origin() . BASE_PATH); ?>/assets/images/logo.png">
 
   <?php if (!empty($preloadImage)): ?>
   <!-- The page's largest image, requested before the stylesheets resolve -->

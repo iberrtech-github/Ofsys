@@ -374,7 +374,15 @@
 
   .about-story {
     padding-top: 68px;
-    padding-bottom: 64px;
+    padding-bottom: 26px;
+  }
+
+  .about-belief {
+    padding: 32px 0 30px;
+  }
+
+  .about-vision-mission {
+    padding: 34px 0 60px;
   }
 
   .about-story .col-lg-6,
@@ -481,6 +489,9 @@
 }
 
 @media (max-width: 575px) {
+  .about-story { padding-bottom: 18px; }
+  .about-belief { padding: 24px 0 22px; }
+  .about-vision-mission { padding: 26px 0 52px; }
   .vm-grid { gap: 22px; }
   .vm-board { border-width: 10px; }
   .vm-body { padding: 18px 20px 26px; }

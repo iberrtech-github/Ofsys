@@ -38,6 +38,65 @@ if (!defined('BASE_PATH')) {
     define('BASE_PATH', $basePath);
 }
 
+/**
+ * Absolute address of the site, used for canonical and social URLs.
+ * Leave empty during development: the host the page was requested on is used.
+ * When the site goes live, set this to the real domain, e.g.
+ *     define('SITE_URL', 'https://ofsysedu.com');
+ */
+if (!defined('SITE_URL')) {
+    define('SITE_URL', '');
+}
+
+if (!function_exists('site_origin')) {
+    /** Scheme + host for absolute URLs (SITE_URL once it is filled in). */
+    function site_origin(): string
+    {
+        if (SITE_URL !== '') {
+            return rtrim(SITE_URL, '/');
+        }
+        $https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+            || (int) ($_SERVER['SERVER_PORT'] ?? 80) === 443;
+
+        return ($https ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    }
+}
+
+if (!function_exists('canonical_url')) {
+    /**
+     * The one address a page should be indexed under: the clean, query-free
+     * URL the .htaccess rewrites expose, made absolute.
+     */
+    function canonical_url(): string
+    {
+        $path   = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+        $script = $_SERVER['SCRIPT_NAME'] ?? '';
+        $file   = basename($script);
+        $slug   = isset($_GET['slug']) ? preg_replace('/[^a-zA-Z0-9_-]/', '', (string) $_GET['slug']) : '';
+
+        if ($file === 'course-detail.php' && $slug !== '') {
+            // The legacy ?slug= handler; its public address is /courses/{slug}.
+            $path = BASE_PATH . '/courses/' . $slug;
+        } elseif ($file === 'blog-detail.php' && $slug !== '') {
+            $path = BASE_PATH . '/blog/' . $slug;
+        } elseif (strpos(str_replace(chr(92), '/', $script), '/course-pages/') !== false) {
+            $path = BASE_PATH . '/courses/' . basename($file, '.php');
+        } else {
+            // Clean URLs drop the extension; /index.php is the folder itself.
+            $path = preg_replace('#/index\.php$#i', '/', $path);
+            $path = preg_replace('#\.php$#i', '', $path);
+        }
+
+        $path = rtrim($path, '/');
+        if ($path === '' || $path === BASE_PATH) {
+            $path = BASE_PATH . '/';
+        }
+
+        return site_origin() . $path;
+    }
+}
+
 // Placements & Gallery are managed from the admin panel, not from this file.
 require_once __DIR__ . '/db.php';
 

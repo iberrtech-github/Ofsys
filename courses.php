@@ -77,7 +77,7 @@ include __DIR__ . '/includes/page-banner.php';
 
     <div class="cg-header" data-aos="fade-up">
       <span class="section-kicker">Our Programs</span>
-      <h2 class="cg-title">Eight Career-Building <em>Courses</em></h2>
+      <h2 class="cg-title">Eight Career - Building <em>Courses</em></h2>
       <div class="cg-divider"></div>
     </div>
 
