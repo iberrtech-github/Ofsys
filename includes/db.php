@@ -107,6 +107,27 @@ function ofsy_get_gallery_categories()
     }
 }
 
+/**
+ * Every gallery category, used by the admin dropdown. Unlike
+ * ofsy_get_gallery_categories() this one also returns the empty ones.
+ */
+function ofsy_get_gallery_categories_all()
+{
+    $db = ofsy_db();
+    if (!$db) {
+        return [];
+    }
+
+    try {
+        return $db->query(
+            'SELECT * FROM gallery_categories ORDER BY sort_order ASC, id ASC'
+        )->fetchAll();
+    } catch (PDOException $e) {
+        error_log('OFSYS gallery category list failed: ' . $e->getMessage());
+        return [];
+    }
+}
+
 /** Active gallery images with their category slug and name. */
 function ofsy_get_gallery_items()
 {
@@ -127,6 +148,109 @@ function ofsy_get_gallery_items()
         error_log('OFSYS gallery query failed: ' . $e->getMessage());
         return [];
     }
+}
+
+/** Active gallery videos, ordered the way the admin arranged them. */
+function ofsy_get_gallery_videos()
+{
+    $db = ofsy_db();
+    if (!$db) {
+        return [];
+    }
+
+    try {
+        return $db->query(
+            'SELECT * FROM gallery_videos WHERE is_active = 1
+              ORDER BY sort_order ASC, id DESC'
+        )->fetchAll();
+    } catch (PDOException $e) {
+        // Also the path taken before db-upgrade-gallery.sql has been run: the
+        // video gallery simply stays empty instead of breaking the page.
+        error_log('OFSYS gallery video query failed: ' . $e->getMessage());
+        return [];
+    }
+}
+
+/**
+ * Reads a pasted YouTube or Vimeo link and returns ['provider' => ..., 'id' => ...],
+ * or null when the URL is not a video link we can embed. Shared by the admin
+ * (which stores the result) and by the frontend fallback for older rows.
+ */
+function ofsy_parse_video_url($url)
+{
+    $url = trim((string) $url);
+    if ($url === '') {
+        return null;
+    }
+
+    // youtu.be/<id>, youtube.com/watch?v=<id>, /embed/<id>, /shorts/<id>, /live/<id>
+    if (preg_match('#youtu\.be/([A-Za-z0-9_-]{6,20})#i', $url, $m)
+        || preg_match('#youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|live/|v/)([A-Za-z0-9_-]{6,20})#i', $url, $m)) {
+        return ['provider' => 'youtube', 'id' => $m[1]];
+    }
+
+    // vimeo.com/<id>, vimeo.com/channels/x/<id>, player.vimeo.com/video/<id>
+    if (preg_match('#vimeo\.com/(?:video/|channels/[A-Za-z0-9_-]+/|groups/[A-Za-z0-9_-]+/videos/)?(\d{6,12})#i', $url, $m)) {
+        return ['provider' => 'vimeo', 'id' => $m[1]];
+    }
+
+    return null;
+}
+
+/** The privacy-friendly embed URL for one stored video row. */
+function ofsy_video_embed_url(array $video)
+{
+    $id       = trim((string) ($video['video_id'] ?? ''));
+    $provider = strtolower((string) ($video['provider'] ?? ''));
+
+    // Rows saved before provider/video_id existed still hold the pasted link.
+    if ($id === '' || $provider === '') {
+        $parsed = ofsy_parse_video_url($video['video_url'] ?? '');
+        if (!$parsed) {
+            return '';
+        }
+        $provider = $parsed['provider'];
+        $id       = $parsed['id'];
+    }
+
+    if ($provider === 'youtube') {
+        return 'https://www.youtube-nocookie.com/embed/' . rawurlencode($id)
+             . '?rel=0&autoplay=1';
+    }
+    if ($provider === 'vimeo') {
+        return 'https://player.vimeo.com/video/' . rawurlencode($id) . '?autoplay=1';
+    }
+
+    return '';
+}
+
+/**
+ * Poster image for one video: the thumbnail the admin uploaded or the one
+ * fetched when it was saved, otherwise YouTube's own still. Returns '' when
+ * there is nothing to show, and the frontend draws a plain play card.
+ */
+function ofsy_video_thumb(array $video)
+{
+    $thumb = trim((string) ($video['thumbnail'] ?? ''));
+    if ($thumb !== '') {
+        return ofsy_image_src($thumb);
+    }
+
+    $id       = trim((string) ($video['video_id'] ?? ''));
+    $provider = strtolower((string) ($video['provider'] ?? ''));
+    if ($id === '' || $provider === '') {
+        $parsed = ofsy_parse_video_url($video['video_url'] ?? '');
+        if ($parsed) {
+            $provider = $parsed['provider'];
+            $id       = $parsed['id'];
+        }
+    }
+
+    if ($provider === 'youtube' && $id !== '') {
+        return 'https://i.ytimg.com/vi/' . rawurlencode($id) . '/hqdefault.jpg';
+    }
+
+    return '';
 }
 
 /**

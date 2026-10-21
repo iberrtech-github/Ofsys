@@ -8,10 +8,20 @@ $adminTitle = $adminTitle ?? 'Dashboard';
 $current    = basename($_SERVER['PHP_SELF'], '.php');
 $flash      = admin_take_flash();
 
+// A group ('children') draws a heading with its pages indented under it; a
+// plain entry stays the single link it has always been.
 $navItems = [
     'index'      => ['label' => 'Dashboard',  'icon' => 'fa-gauge-high'],
+    'leads'      => ['label' => 'Leads',      'icon' => 'fa-address-book'],
     'placements' => ['label' => 'Placements', 'icon' => 'fa-user-graduate'],
-    'gallery'    => ['label' => 'Gallery',    'icon' => 'fa-images'],
+    'gallery'    => [
+        'label'    => 'Gallery',
+        'icon'     => 'fa-images',
+        'children' => [
+            'gallery'        => ['label' => 'Photos', 'icon' => 'fa-image'],
+            'gallery-videos' => ['label' => 'Videos', 'icon' => 'fa-video'],
+        ],
+    ],
     'password'   => ['label' => 'Password',   'icon' => 'fa-key'],
 ];
 ?>
@@ -39,11 +49,29 @@ $navItems = [
 
     <nav class="ad-nav">
       <?php foreach ($navItems as $file => $item): ?>
-        <a href="<?php echo ADMIN_PATH . '/' . $file; ?>.php"
-           class="<?php echo $current === $file ? 'is-active' : ''; ?>">
-          <i class="fa-solid <?php echo $item['icon']; ?>"></i>
-          <span><?php echo e($item['label']); ?></span>
-        </a>
+        <?php if (!empty($item['children'])): ?>
+          <div class="ad-nav-group <?php echo isset($item['children'][$current]) ? 'is-open' : ''; ?>">
+            <span class="ad-nav-head">
+              <i class="fa-solid <?php echo $item['icon']; ?>"></i>
+              <span><?php echo e($item['label']); ?></span>
+            </span>
+            <div class="ad-nav-sub">
+              <?php foreach ($item['children'] as $childFile => $child): ?>
+                <a href="<?php echo ADMIN_PATH . '/' . $childFile; ?>.php"
+                   class="<?php echo $current === $childFile ? 'is-active' : ''; ?>">
+                  <i class="fa-solid <?php echo $child['icon']; ?>"></i>
+                  <span><?php echo e($child['label']); ?></span>
+                </a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        <?php else: ?>
+          <a href="<?php echo ADMIN_PATH . '/' . $file; ?>.php"
+             class="<?php echo $current === $file ? 'is-active' : ''; ?>">
+            <i class="fa-solid <?php echo $item['icon']; ?>"></i>
+            <span><?php echo e($item['label']); ?></span>
+          </a>
+        <?php endif; ?>
       <?php endforeach; ?>
     </nav>
 

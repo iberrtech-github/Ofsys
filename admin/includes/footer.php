@@ -22,6 +22,16 @@
       });
     });
 
+    // Same question for a single button inside a shared form (the gallery
+    // grids keep every card in one form, so the form cannot carry it).
+    document.querySelectorAll('button[data-confirm]').forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        if (!window.confirm(button.getAttribute('data-confirm'))) {
+          e.preventDefault();
+        }
+      });
+    });
+
     // Live preview of the picked image
     document.querySelectorAll('input[type="file"][data-preview]').forEach(function (input) {
       input.addEventListener('change', function () {

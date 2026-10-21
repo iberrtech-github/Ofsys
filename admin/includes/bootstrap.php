@@ -103,28 +103,48 @@ function admin_take_flash()
 define('ADMIN_IMAGE_MAX_WIDTH', 1280);
 define('ADMIN_IMAGE_QUALITY', 82);
 
+// Thumbnails written next to the full image, in uploads/<folder>/thumbs/.
+define('ADMIN_THUMB_MAX_WIDTH', 520);
+
+/** The image types an upload is allowed to be, mapped to their extension. */
+function admin_image_types()
+{
+    return [
+        IMAGETYPE_JPEG => 'jpg',
+        IMAGETYPE_PNG  => 'png',
+        IMAGETYPE_GIF  => 'gif',
+        IMAGETYPE_WEBP => 'webp',
+    ];
+}
+
 /**
- * Validates and stores one uploaded image inside uploads/<folder>/.
+ * Validates and stores one already-uploaded file inside uploads/<folder>/.
+ * $file is a single entry of $_FILES (name/type/tmp_name/error/size).
  * Returns the stored path relative to the project root, or null on failure
  * (the reason is written into $error).
  */
-function admin_store_image($field, $folder, &$error = null)
+function admin_store_image_file(array $file, $folder, &$error = null)
 {
     $error = null;
 
-    if (empty($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
+    if (!isset($file['error']) || $file['error'] === UPLOAD_ERR_NO_FILE) {
         return null;
     }
-
-    $file = $_FILES[$field];
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         $error = 'The image could not be uploaded. It may be larger than the server limit.';
         return null;
     }
 
-    if ($file['size'] > 5 * 1024 * 1024) {
+    if (($file['size'] ?? 0) > 5 * 1024 * 1024) {
         $error = 'Please choose an image smaller than 5 MB.';
+        return null;
+    }
+
+    // The browser-sent type is ignored on purpose: the real image header is
+    // what decides whether this is an image at all, and which kind.
+    if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+        $error = 'That upload could not be read.';
         return null;
     }
 
@@ -134,12 +154,7 @@ function admin_store_image($field, $folder, &$error = null)
         return null;
     }
 
-    $allowed = [
-        IMAGETYPE_JPEG => 'jpg',
-        IMAGETYPE_PNG  => 'png',
-        IMAGETYPE_GIF  => 'gif',
-        IMAGETYPE_WEBP => 'webp',
-    ];
+    $allowed = admin_image_types();
     if (!isset($allowed[$info[2]])) {
         $error = 'Allowed image types are JPG, PNG, GIF and WEBP.';
         return null;
@@ -164,6 +179,109 @@ function admin_store_image($field, $folder, &$error = null)
     admin_shrink_image($dir . '/' . $name, $info[2]);
 
     return 'uploads/' . $folder . '/' . $name;
+}
+
+/**
+ * Stores the single image posted in $_FILES[$field]. Kept as the one-file
+ * entry point used by the placements and video forms.
+ */
+function admin_store_image($field, $folder, &$error = null)
+{
+    $error = null;
+
+    if (empty($_FILES[$field]) || !isset($_FILES[$field]['error'])) {
+        return null;
+    }
+
+    return admin_store_image_file($_FILES[$field], $folder, $error);
+}
+
+/**
+ * Stores every image posted in a multiple file input (name="images[]").
+ * Returns the list of stored paths; the reason each rejected file failed is
+ * collected into $errors so the page can report them all at once.
+ */
+function admin_store_images($field, $folder, array &$errors = [])
+{
+    $errors = [];
+    $stored = [];
+
+    if (empty($_FILES[$field]) || !isset($_FILES[$field]['error'])) {
+        return $stored;
+    }
+
+    $posted = $_FILES[$field];
+
+    // A single input gives scalars, a multiple input gives parallel arrays.
+    if (!is_array($posted['error'])) {
+        $posted = array_map(function ($value) { return [$value]; }, $posted);
+    }
+
+    $count = count($posted['error']);
+    for ($i = 0; $i < $count; $i++) {
+        $file = [
+            'name'     => $posted['name'][$i] ?? '',
+            'type'     => $posted['type'][$i] ?? '',
+            'tmp_name' => $posted['tmp_name'][$i] ?? '',
+            'error'    => $posted['error'][$i] ?? UPLOAD_ERR_NO_FILE,
+            'size'     => $posted['size'][$i] ?? 0,
+        ];
+
+        if ($file['error'] === UPLOAD_ERR_NO_FILE) {
+            continue;
+        }
+
+        $error = '';
+        $path  = admin_store_image_file($file, $folder, $error);
+        if ($path !== null) {
+            $stored[] = $path;
+        } elseif ($error !== '' && $error !== null) {
+            $label = trim((string) $file['name']);
+            $errors[] = ($label !== '' ? $label . ': ' : '') . $error;
+        }
+    }
+
+    return $stored;
+}
+
+/**
+ * Writes a small copy of an already-stored image into uploads/<folder>/thumbs/
+ * and returns its path relative to the project root. Returns null when GD is
+ * unavailable or the copy fails: the full image is then used as its own
+ * thumbnail, which looks the same and only costs bandwidth.
+ */
+function admin_make_thumbnail($storedPath, $maxWidth = ADMIN_THUMB_MAX_WIDTH)
+{
+    $storedPath = ltrim((string) $storedPath, '/');
+    if ($storedPath === '' || !function_exists('imagecreatetruecolor')) {
+        return null;
+    }
+
+    $full = PROJECT_ROOT . '/' . $storedPath;
+    if (!is_file($full)) {
+        return null;
+    }
+
+    $info = @getimagesize($full);
+    $allowed = admin_image_types();
+    if ($info === false || !isset($allowed[$info[2]])) {
+        return null;
+    }
+
+    $dir = dirname($full) . '/thumbs';
+    if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+        return null;
+    }
+
+    $name  = 'thumb-' . basename($storedPath);
+    $thumb = $dir . '/' . $name;
+    if (!copy($full, $thumb)) {
+        return null;
+    }
+
+    admin_shrink_image($thumb, $info[2], $maxWidth);
+
+    return dirname($storedPath) . '/thumbs/' . $name;
 }
 
 /**

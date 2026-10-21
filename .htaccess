@@ -76,3 +76,11 @@ RewriteRule ^([^\.]+)$ $1.php [NC,L]
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# ---------------------------------------------------------------------------
+# The enquiry leads file holds visitors' names and phone numbers, so it is
+# never served over the web; only the admin panel reads it, from disk.
+# ---------------------------------------------------------------------------
+<Files "leads.json">
+  Require all denied
+</Files>

@@ -1,5 +1,5 @@
 <!-- Hero variant: same tile without the graduation cap and open book -->
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360" fill="none" stroke="#D31826" stroke-opacity="0.09" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360" fill="none" stroke="#D31826" stroke-opacity="0.045" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
   <!-- Pencil -->
   <path d="M318 120 L340 98 L350 108 L328 130 L314 134 Z"/>
   <path d="M334 104 L344 114"/>

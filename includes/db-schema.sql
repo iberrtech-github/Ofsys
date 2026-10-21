@@ -1,5 +1,7 @@
 -- OFSYS Education - Database schema for the dynamic Placements & Gallery pages.
 -- Import this file in phpMyAdmin (or run it with the mysql client) on a new server.
+-- An older database that already holds data is upgraded with db-upgrade-gallery.sql
+-- instead, which adds only what is missing.
 
 CREATE DATABASE IF NOT EXISTS `ofsy_db`
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -37,13 +39,27 @@ CREATE TABLE IF NOT EXISTS `gallery_categories` (
 CREATE TABLE IF NOT EXISTS `gallery_items` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(180) NOT NULL DEFAULT '',
+  `alt_text` VARCHAR(255) NOT NULL DEFAULT '',
   `category_id` INT NULL,
   `image` VARCHAR(255) NOT NULL,
+  `thumbnail` VARCHAR(255) NULL,
   `sort_order` INT NOT NULL DEFAULT 0,
   `is_active` TINYINT(1) NOT NULL DEFAULT 1,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_gallery_category` FOREIGN KEY (`category_id`)
     REFERENCES `gallery_categories` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `gallery_videos` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(180) NOT NULL DEFAULT '',
+  `video_url` VARCHAR(500) NOT NULL,
+  `provider` VARCHAR(20) NOT NULL DEFAULT 'youtube',
+  `video_id` VARCHAR(80) NOT NULL DEFAULT '',
+  `thumbnail` VARCHAR(500) NULL,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Starter gallery categories. Rename or delete them from the admin panel.
